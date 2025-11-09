@@ -107,11 +107,9 @@ const translations: Record<Lang, Record<string, string>> = {
     // Pages
     communitiesTitle: "Climate Action Communities",
     communitiesSubtitle: "Explore climate action communities around the world",
-    newCommunity: "New Community",
 
     projectsTitle: "Project Management",
     projectsSubtitle: "Manage and monitor your community's climate projects",
-    newProject: "New Project",
 
     reportsTitle: "Analytics Reports",
     reportsSubtitle: "Monitor impact and trends of climate actions",
@@ -309,11 +307,9 @@ const translations: Record<Lang, Record<string, string>> = {
     // Pages
     communitiesTitle: "Komunitas Aksi Iklim",
     communitiesSubtitle: "Jelajahi komunitas aksi iklim di seluruh dunia",
-    newCommunity: "Komunitas Baru",
 
     projectsTitle: "Manajemen Proyek",
     projectsSubtitle: "Kelola dan pantau proyek aksi iklim komunitas Anda",
-    newProject: "Proyek Baru",
 
     reportsTitle: "Laporan Analitik",
     reportsSubtitle: "Pantau dampak dan tren aksi iklim global Anda",
