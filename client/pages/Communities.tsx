@@ -270,7 +270,7 @@ export default function Communities() {
               onClick={() => navigate("/requests")}
               className="px-4 py-2 rounded-lg hover:bg-muted transition-colors font-medium text-sm"
             >
-              Kelola Permohonan
+              {t("manageRequests")}
             </button>
             <button
               onClick={() => setShowCreate(true)}
