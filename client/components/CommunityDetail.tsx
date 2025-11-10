@@ -403,9 +403,27 @@ export const CommunityDetail: React.FC<CommunityDetailProps> = ({
             </div>
           </div>
           <div className="flex items-center gap-2">
+            {isMember && currentUser && isLeader && (
+              <>
+                <button
+                  onClick={() => setShowAnnouncementDialog(true)}
+                  className="px-4 py-2 rounded-lg bg-blue-500/10 text-blue-600 hover:bg-blue-500/20 transition-colors flex items-center gap-2"
+                >
+                  <Megaphone className="w-4 h-4" />
+                  {t("postAnnouncement")}
+                </button>
+                <button
+                  onClick={() => setShowDeleteDialog(true)}
+                  className="px-4 py-2 rounded-lg bg-red-500/10 text-red-600 hover:bg-red-500/20 transition-colors flex items-center gap-2"
+                >
+                  <Trash2 className="w-4 h-4" />
+                  {t("deleteCommunity")}
+                </button>
+              </>
+            )}
             {isMember && currentUser && (
               <button
-                onClick={handleLeaveCommunity}
+                onClick={() => setShowLeaveDialog(true)}
                 className="px-4 py-2 rounded-lg bg-destructive/10 text-destructive hover:bg-destructive/20 transition-colors flex items-center gap-2"
               >
                 <LogOut className="w-4 h-4" />
@@ -440,25 +458,7 @@ export const CommunityDetail: React.FC<CommunityDetailProps> = ({
                 </button>
               ) : (
                 <button
-                  onClick={async () => {
-                    try {
-                      await supabase.from("community_members").insert({
-                        community_id: community.id,
-                        user_id: currentUser.id,
-                        role: "member",
-                      });
-                      await supabase
-                        .from("communities")
-                        .update({
-                          member_count: (community.member_count || 0) + 1,
-                        })
-                        .eq("id", community.id);
-                      alert("Bergabung ke komunitas");
-                      setIsMember(true);
-                    } catch (e) {
-                      alert(String(e));
-                    }
-                  }}
+                  onClick={() => setShowJoinDialog(true)}
                   className="px-4 py-2 rounded-lg bg-primary text-primary-foreground"
                 >
                   {t("joinCommunity")}
