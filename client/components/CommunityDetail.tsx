@@ -221,6 +221,33 @@ export const CommunityDetail: React.FC<CommunityDetailProps> = ({
     }
   };
 
+  const handleLeaveCommunity = async () => {
+    if (!confirm("Yakin ingin keluar dari komunitas ini?")) return;
+
+    try {
+      if (!currentUser) return;
+
+      await supabase
+        .from("community_members")
+        .delete()
+        .eq("community_id", communityId)
+        .eq("user_id", currentUser.id);
+
+      await supabase
+        .from("communities")
+        .update({
+          member_count: Math.max(0, (community?.member_count || 1) - 1),
+        })
+        .eq("id", communityId);
+
+      setIsMember(false);
+      alert("Berhasil keluar dari komunitas");
+    } catch (error) {
+      console.error("Error leaving community:", error);
+      alert("Gagal keluar dari komunitas");
+    }
+  };
+
   if (loading) {
     return (
       <div className="w-full h-screen flex items-center justify-center">
