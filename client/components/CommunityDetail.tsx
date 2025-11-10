@@ -70,6 +70,7 @@ export const CommunityDetail: React.FC<CommunityDetailProps> = ({
   onClose,
   isOwner = false,
 }) => {
+  const { t } = useI18n();
   const [activeTab, setActiveTab] = useState<TabType>("overview");
   const [community, setCommunity] = useState<Community | null>(null);
   const [members, setMembers] = useState<Member[]>([]);
