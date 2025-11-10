@@ -474,7 +474,7 @@ export default function Communities() {
                       await supabase.from("community_members").insert({
                         community_id: newCommunity.id,
                         user_id: authUser.id,
-                        role: "leader",
+                        role: "admin",
                       });
                       setCommunities((prev) => [newCommunity, ...prev]);
                       setShowCreate(false);
