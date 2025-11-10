@@ -22,6 +22,9 @@ import Blog from "./pages/Blog";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import NotFound from "./pages/NotFound";
+import GlobalMap from "./pages/GlobalMap";
+import Chat from "./pages/Chat";
+import GlobalCollaboration from "./pages/GlobalCollaboration";
 
 const queryClient = new QueryClient();
 
