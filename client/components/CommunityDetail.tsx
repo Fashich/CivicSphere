@@ -303,6 +303,15 @@ export const CommunityDetail: React.FC<CommunityDetailProps> = ({
             </div>
           </div>
           <div className="flex items-center gap-2">
+            {isMember && currentUser && (
+              <button
+                onClick={handleLeaveCommunity}
+                className="px-4 py-2 rounded-lg bg-destructive/10 text-destructive hover:bg-destructive/20 transition-colors flex items-center gap-2"
+              >
+                <LogOut className="w-4 h-4" />
+                {t("leave")}
+              </button>
+            )}
             {!isMember &&
               currentUser &&
               (community.visibility === "closed" ? (
@@ -310,7 +319,7 @@ export const CommunityDetail: React.FC<CommunityDetailProps> = ({
                   className="px-4 py-2 rounded-lg bg-muted cursor-not-allowed"
                   disabled
                 >
-                  Tertutup
+                  {t("closed")}
                 </button>
               ) : community.visibility === "request" ? (
                 <button
@@ -327,7 +336,7 @@ export const CommunityDetail: React.FC<CommunityDetailProps> = ({
                   }}
                   className="px-4 py-2 rounded-lg bg-primary text-primary-foreground"
                 >
-                  Ajukan Bergabung
+                  {t("requestToJoin")}
                 </button>
               ) : (
                 <button
@@ -352,7 +361,7 @@ export const CommunityDetail: React.FC<CommunityDetailProps> = ({
                   }}
                   className="px-4 py-2 rounded-lg bg-primary text-primary-foreground"
                 >
-                  Bergabung
+                  {t("joinCommunity")}
                 </button>
               ))}
             {onClose && (
