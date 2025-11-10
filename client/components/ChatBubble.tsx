@@ -14,7 +14,7 @@ export default function ChatBubble({
       <button
         onClick={() => setOpen(true)}
         aria-label="Open chat"
-        className="fixed right-6 bottom-6 z-40 w-14 h-14 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-lg hover:scale-105 transition-transform"
+        className="fixed right-6 bottom-6 z-50 w-14 h-14 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-lg hover:scale-105 transition-transform"
       >
         <MessageSquare className="w-6 h-6" />
       </button>

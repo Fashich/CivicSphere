@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import BackButton from "@/components/BackButton";
 import LanguageToggle from "@/components/LanguageToggle";
+import NotificationBell from "@/components/NotificationBell";
 import ChatBubble from "@/components/ChatBubble";
 import { useI18n } from "@/lib/i18n";
 import { toast } from "@/hooks/use-toast";
@@ -189,7 +190,8 @@ export default function Chat() {
       if (selectedFriend) {
         payload.recipient_id = selectedFriend;
       } else {
-        payload.room_id = "community-chat";
+        payload.room_id = "global";
+        payload.is_public = true;
       }
 
       const { error } = await supabase.from("messages").insert(payload);
@@ -279,7 +281,7 @@ export default function Chat() {
           (m.sender_id === selectedFriend &&
             m.recipient_id === currentUser?.id),
       )
-    : messages.filter((m) => m.room_id === "community-chat");
+    : messages.filter((m) => m.room_id === "global");
 
   if (loading) {
     return (
@@ -315,6 +317,7 @@ export default function Chat() {
           </div>
           <div className="flex items-center gap-2">
             <LanguageToggle lang={lang} setLang={setLang} />
+            <NotificationBell />
           </div>
         </div>
       </header>
@@ -362,11 +365,11 @@ export default function Chat() {
             <div className="flex items-center gap-2 mb-1">
               <MessageCircle className="w-4 h-4" />
               <p className="font-medium">
-                {t("communityChat") || "Chat Komunitas"}
+                Global Chat
               </p>
             </div>
             <p className="text-xs text-muted-foreground">
-              {t("publicChat") || "Obrolan publik"}
+              Hanya pengguna login
             </p>
           </button>
 
@@ -423,7 +426,7 @@ export default function Chat() {
               {selectedFriend
                 ? friends.find((f) => f.friend_id === selectedFriend)?.friend
                     ?.username || "Chat"
-                : t("communityChat") || "Chat Komunitas"}
+                : "Global Chat"}
             </h2>
           </div>
 

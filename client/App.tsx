@@ -25,6 +25,8 @@ import NotFound from "./pages/NotFound";
 import GlobalMap from "./pages/GlobalMap";
 import Chat from "./pages/Chat";
 import GlobalCollaboration from "./pages/GlobalCollaboration";
+import Support from "./pages/Support";
+import CommunityRequests from "./pages/CommunityRequests";
 
 const queryClient = new QueryClient();
 
@@ -129,6 +131,8 @@ const App = () => {
                   <Route path="/privacy" element={<Privacy />} />
                   <Route path="/terms" element={<Terms />} />
 
+                  <Route path="/support" element={<Support />} />
+                  <Route path="/requests" element={<CommunityRequests />} />
                   <Route path="/profile" element={<Profile />} />
                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                   <Route path="*" element={<NotFound />} />

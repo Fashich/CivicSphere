@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Plus, Filter, Loader } from "lucide-react";
 import BackButton from "@/components/BackButton";
 import LanguageToggle from "@/components/LanguageToggle";
+import NotificationBell from "@/components/NotificationBell";
 import ChatBubble from "@/components/ChatBubble";
 import { useI18n } from "@/lib/i18n";
 import { MapView } from "@/components/MapView";
@@ -114,6 +115,7 @@ export default function GlobalMap() {
           </div>
           <div className="flex items-center gap-2">
             <LanguageToggle lang={lang} setLang={setLang} />
+            <NotificationBell />
           </div>
         </div>
       </header>

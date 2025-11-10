@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Globe, Download, ChevronDown } from "lucide-react";
 import BackButton from "@/components/BackButton";
 import LanguageToggle from "@/components/LanguageToggle";
+import NotificationBell from "@/components/NotificationBell";
 import ChatBubble from "@/components/ChatBubble";
 import { useI18n } from "@/lib/i18n";
 import { AnalyticsDashboard } from "@/components/AnalyticsDashboard";
@@ -349,6 +350,7 @@ export default function Reports() {
           </div>
           <div className="flex items-center gap-3">
             <LanguageToggle lang={lang} setLang={setLang} />
+            <NotificationBell />
             <select
               value={timeRange}
               onChange={(e) =>

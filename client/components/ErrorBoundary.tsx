@@ -16,10 +16,13 @@ export class ErrorBoundary extends React.Component<
   }
 
   componentDidCatch(error: Error, info: React.ErrorInfo) {
-    // Log the error to console or a monitoring service
-    // Avoid throwing from here
     // eslint-disable-next-line no-console
     console.error("Uncaught error in ErrorBoundary:", error, info);
+    try {
+      sessionStorage.setItem("lastErrorMessage", error?.message || "");
+      sessionStorage.setItem("lastErrorStack", error?.stack || "");
+      sessionStorage.setItem("lastErrorUrl", window.location.href);
+    } catch {}
   }
 
   render() {
@@ -30,7 +33,7 @@ export class ErrorBoundary extends React.Component<
             <h1 className="text-2xl font-bold mb-4">Terjadi kesalahan</h1>
             <p className="text-muted-foreground mb-6">
               Ada sesuatu yang salah pada aplikasi. Silakan muat ulang halaman
-              atau hubungi support jika masalah berlanjut.
+              atau <a href="/support" className="underline text-primary">hubungi support</a> jika masalah berlanjut.
             </p>
             <div className="flex justify-center gap-3">
               <button

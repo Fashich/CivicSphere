@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import ThemeToggle from "@/components/ThemeToggle";
 import LanguageToggle from "@/components/LanguageToggle";
+import NotificationBell from "@/components/NotificationBell";
 import BackButton from "@/components/BackButton";
 import ChatBubble from "@/components/ChatBubble";
 import { useI18n } from "@/lib/i18n";
@@ -273,6 +274,7 @@ export default function Dashboard() {
           <div className="flex items-center gap-4">
             <ThemeToggle />
             <LanguageToggle lang={lang} setLang={setLang} />
+            <NotificationBell />
             <div className="relative" data-profile-menu>
               <button
                 onClick={() => setShowProfileMenu(!showProfileMenu)}
@@ -332,17 +334,6 @@ export default function Dashboard() {
           </p>
         </div>
 
-        {/* Notification Center */}
-        <div className="mb-8 p-4 bg-blue-500/10 border border-blue-500/20 rounded-lg">
-          <div className="flex items-center gap-2 mb-2">
-            <span className="text-sm font-semibold text-blue-600">
-              {t("notificationsLabel") || "Notifikasi"}
-            </span>
-          </div>
-          <p className="text-sm text-muted-foreground">
-            {t("noNotifications") || "Tidak ada notifikasi baru saat ini"}
-          </p>
-        </div>
 
         {/* Quick Stats */}
         <div className="grid md:grid-cols-4 gap-4 mb-8">
@@ -399,59 +390,51 @@ export default function Dashboard() {
         {/* Features Section */}
         <section className="mb-8">
           <div className="mb-6">
-            <h2 className="text-2xl font-bold mb-2">Fitur Utama</h2>
-            <p className="text-muted-foreground">
-              Kelola aksi iklim dan kolaborasi dengan komunitas global
-            </p>
+            <h2 className="text-2xl font-bold mb-2">{t("dashboard.featuresTitle")}</h2>
+            <p className="text-muted-foreground">{t("dashboard.featuresDesc")}</p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
             {[
               {
                 icon: Map,
-                title: "Peta Interaktif Global",
-                description:
-                  "Visualisasi aksi iklim di seluruh dunia dengan peta Leaflet interaktif, clustering, dan filter real-time",
-                action: "Jelajahi Peta",
+                title: t("dashboard.feature.map.title"),
+                description: t("dashboard.feature.map.desc"),
+                action: t("dashboard.feature.map.cta"),
                 navigate: "/global-map",
               },
               {
                 icon: Users,
-                title: "Manajemen Komunitas",
-                description:
-                  "Kelola anggota komunitas, peran, dan kontribusi dengan sistem terpusat untuk kolaborasi efektif",
-                action: "Kelola Komunitas",
+                title: t("dashboard.feature.community.title"),
+                description: t("dashboard.feature.community.desc"),
+                action: t("dashboard.feature.community.cta"),
                 navigate: "/communities",
               },
               {
                 icon: MessageCircle,
-                title: "Chat Kolaboratif",
-                description:
-                  "Berkomunikasi real-time dengan anggota komunitas untuk diskusi dan koordinasi proyek",
-                action: "Mulai Obrolan",
+                title: t("dashboard.feature.chat.title"),
+                description: t("dashboard.feature.chat.desc"),
+                action: t("dashboard.feature.chat.cta"),
                 navigate: "/chat",
               },
               {
                 icon: Zap,
-                title: "Pelacakan Proyek",
-                description:
-                  "Pantau status proyek, target CO2, dan progres dengan dashboard yang mudah digunakan",
-                action: "Lihat Proyek",
+                title: t("dashboard.feature.projects.title"),
+                description: t("dashboard.feature.projects.desc"),
+                action: t("dashboard.feature.projects.cta"),
                 navigate: "/projects",
               },
               {
                 icon: BarChart3,
-                title: "Analitik 3D Komprehensif",
-                description:
-                  "Dashboard dengan visualisasi 3D, tren waktu, perbandingan regional, dan metrik dampak",
-                action: "Lihat Laporan",
+                title: t("dashboard.feature.analytics.title"),
+                description: t("dashboard.feature.analytics.desc"),
+                action: t("dashboard.feature.analytics.cta"),
                 navigate: "/reports",
               },
               {
                 icon: Globe,
-                title: "Kolaborasi Global",
-                description:
-                  "Terhubung dengan komunitas di seluruh dunia dan berkolaborasi untuk aksi iklim bersama",
-                action: "Jelajahi Komunitas",
+                title: t("dashboard.feature.collab.title"),
+                description: t("dashboard.feature.collab.desc"),
+                action: t("dashboard.feature.collab.cta"),
                 navigate: "/global-collaboration",
               },
             ].map((feature) => (
@@ -480,14 +463,8 @@ export default function Dashboard() {
           <div className="bg-gradient-to-r from-primary/10 to-secondary/10 border border-primary/20 rounded-lg p-8">
             <div className="flex items-start justify-between">
               <div>
-                <h2 className="text-2xl font-bold mb-2">
-                  Mulai dengan Data Demo
-                </h2>
-                <p className="text-muted-foreground mb-4">
-                  Seed database dengan komunitas contoh dan aksi iklim dari
-                  seluruh dunia untuk melihat platform dalam aksi. Data ini
-                  membantu Anda menjelajahi semua fitur.
-                </p>
+                <h2 className="text-2xl font-bold mb-2">{t("dashboard.demo.title")}</h2>
+                <p className="text-muted-foreground mb-4">{t("dashboard.demo.desc")}</p>
                 <button
                   onClick={handleSeedData}
                   disabled={seeding}
@@ -496,12 +473,12 @@ export default function Dashboard() {
                   {seeding ? (
                     <>
                       <Loader className="w-4 h-4 animate-spin" />
-                      Memproses...
+                      {t("processing")}
                     </>
                   ) : (
                     <>
                       <Plus className="w-4 h-4" />
-                      Seed Data Demo
+                      {t("dashboard.demo.cta")}
                     </>
                   )}
                 </button>
