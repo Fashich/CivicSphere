@@ -195,6 +195,11 @@ const translations: Record<Lang, Record<string, string>> = {
     communityCreated: "Community created",
     communityCreateFailed: "Failed to create community",
     createCommunity: "Create Community",
+    visibility: "Visibility",
+    visibilityPublic: "Public",
+    visibilityRequest: "Requires Request",
+    visibilityClosed: "Closed",
+    manageRequests: "Manage Requests",
 
     // Projects
     newProject: "New Project",
