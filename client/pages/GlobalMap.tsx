@@ -174,7 +174,9 @@ export default function GlobalMap() {
           <div className="mt-8 p-6 bg-card border border-border rounded-lg">
             <div className="flex items-start justify-between mb-4">
               <div>
-                <h3 className="text-xl font-bold mb-2">{selectedAction.title}</h3>
+                <h3 className="text-xl font-bold mb-2">
+                  {selectedAction.title}
+                </h3>
                 <p className="text-muted-foreground">
                   {selectedAction.location_name || "Unknown Location"}
                 </p>

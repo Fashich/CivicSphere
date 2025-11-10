@@ -274,8 +274,10 @@ export default function Chat() {
   const filteredMessages = selectedFriend
     ? messages.filter(
         (m) =>
-          (m.sender_id === currentUser?.id && m.recipient_id === selectedFriend) ||
-          (m.sender_id === selectedFriend && m.recipient_id === currentUser?.id),
+          (m.sender_id === currentUser?.id &&
+            m.recipient_id === selectedFriend) ||
+          (m.sender_id === selectedFriend &&
+            m.recipient_id === currentUser?.id),
       )
     : messages.filter((m) => m.room_id === "community-chat");
 
@@ -359,7 +361,9 @@ export default function Chat() {
           >
             <div className="flex items-center gap-2 mb-1">
               <MessageCircle className="w-4 h-4" />
-              <p className="font-medium">{t("communityChat") || "Chat Komunitas"}</p>
+              <p className="font-medium">
+                {t("communityChat") || "Chat Komunitas"}
+              </p>
             </div>
             <p className="text-xs text-muted-foreground">
               {t("publicChat") || "Obrolan publik"}

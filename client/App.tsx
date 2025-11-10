@@ -117,7 +117,10 @@ const App = () => {
                   <Route path="/reports" element={<Reports />} />
                   <Route path="/global-map" element={<GlobalMap />} />
                   <Route path="/chat" element={<Chat />} />
-                  <Route path="/global-collaboration" element={<GlobalCollaboration />} />
+                  <Route
+                    path="/global-collaboration"
+                    element={<GlobalCollaboration />}
+                  />
 
                   <Route path="/about" element={<About />} />
                   <Route path="/features" element={<Features />} />

@@ -6,7 +6,16 @@ import BackButton from "@/components/BackButton";
 import LanguageToggle from "@/components/LanguageToggle";
 import ChatBubble from "@/components/ChatBubble";
 import { useI18n } from "@/lib/i18n";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
 
 interface Community {
   id: string;
@@ -106,10 +115,11 @@ export default function GlobalCollaboration() {
         const date = new Date();
         date.setMonth(date.getMonth() - i);
         const monthName = date.toLocaleString("default", { month: "short" });
-        
+
         months.push({
           month: monthName,
-          communities: (communitiesData?.length || 0) + Math.floor(Math.random() * 5),
+          communities:
+            (communitiesData?.length || 0) + Math.floor(Math.random() * 5),
           actions: (actionsData?.length || 0) + Math.floor(Math.random() * 30),
           participants: Math.floor(Math.random() * 500 + 100),
         });
@@ -172,9 +182,7 @@ export default function GlobalCollaboration() {
           <div className="flex items-center justify-center py-12">
             <div className="text-center">
               <Loader className="w-8 h-8 animate-spin text-primary mx-auto mb-2" />
-              <p className="text-muted-foreground">
-                {t("loadingCommunities")}
-              </p>
+              <p className="text-muted-foreground">{t("loadingCommunities")}</p>
             </div>
           </div>
         ) : (
@@ -362,11 +370,10 @@ export default function GlobalCollaboration() {
                     <div className="flex items-center gap-2">
                       <MessageCircle className="w-4 h-4 text-primary" />
                       <span className="text-sm">
-                        {t("createdDate")}: {
-                          new Date(selectedCommunity.created_at).toLocaleDateString(
-                            lang === "en" ? "en-US" : "id-ID",
-                          )
-                        }
+                        {t("createdDate")}:{" "}
+                        {new Date(
+                          selectedCommunity.created_at,
+                        ).toLocaleDateString(lang === "en" ? "en-US" : "id-ID")}
                       </span>
                     </div>
                   </div>

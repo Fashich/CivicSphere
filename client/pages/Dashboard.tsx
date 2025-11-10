@@ -530,10 +530,11 @@ export default function Dashboard() {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>
-              {t("cancel") || "Batal"}
-            </AlertDialogCancel>
-            <AlertDialogAction onClick={handleLogout} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+            <AlertDialogCancel>{t("cancel") || "Batal"}</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleLogout}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
               {t("logout") || "Keluar"}
             </AlertDialogAction>
           </AlertDialogFooter>
