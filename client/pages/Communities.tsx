@@ -261,6 +261,16 @@ export default function Communities() {
               {view === "map" ? t("listView") : t("mapView")}
             </button>
             <button
+              onClick={() => setView(view === "map" ? "list" : "map")}
+              className="hidden"
+            />
+            <button
+              onClick={() => navigate("/requests")}
+              className="px-4 py-2 rounded-lg hover:bg-muted transition-colors font-medium text-sm"
+            >
+              Kelola Permohonan
+            </button>
+            <button
               onClick={() => setShowCreate(true)}
               className="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-primary-foreground font-medium hover:shadow-lg transition-all"
             >
