@@ -7,6 +7,7 @@ import LanguageToggle from "@/components/LanguageToggle";
 import ChatBubble from "@/components/ChatBubble";
 import { useI18n } from "@/lib/i18n";
 import { MapView } from "@/components/MapView";
+import NotificationBell from "@/components/NotificationBell";
 import { CommunityDetail } from "@/components/CommunityDetail";
 import {
   Dialog,
@@ -58,6 +59,9 @@ export default function Communities() {
   const [newName, setNewName] = useState("");
   const [newDescription, setNewDescription] = useState("");
   const [creating, setCreating] = useState(false);
+  const [visibility, setVisibility] = useState<"public" | "request" | "closed">(
+    "public",
+  );
 
   useEffect(() => {
     let communitiesChannel: any = null;
@@ -251,11 +255,22 @@ export default function Communities() {
           </div>
           <div className="flex items-center gap-2">
             <LanguageToggle lang={lang} setLang={setLang} />
+            <NotificationBell />
             <button
               onClick={() => setView(view === "map" ? "list" : "map")}
               className="px-4 py-2 rounded-lg hover:bg-muted transition-colors font-medium text-sm"
             >
               {view === "map" ? t("listView") : t("mapView")}
+            </button>
+            <button
+              onClick={() => setView(view === "map" ? "list" : "map")}
+              className="hidden"
+            />
+            <button
+              onClick={() => navigate("/requests")}
+              className="px-4 py-2 rounded-lg hover:bg-muted transition-colors font-medium text-sm"
+            >
+              Kelola Permohonan
             </button>
             <button
               onClick={() => setShowCreate(true)}
@@ -399,6 +414,18 @@ export default function Communities() {
                   className="w-full px-3 py-2 rounded border bg-card"
                 />
               </div>
+              <div>
+                <label className="block text-sm font-medium">Visibilitas</label>
+                <select
+                  value={visibility}
+                  onChange={(e) => setVisibility(e.target.value as any)}
+                  className="w-full px-3 py-2 rounded border bg-card"
+                >
+                  <option value="public">Terbuka</option>
+                  <option value="request">Butuh Permohonan</option>
+                  <option value="closed">Tutup</option>
+                </select>
+              </div>
             </div>
             <DialogFooter>
               <div className="flex gap-2">
@@ -432,6 +459,12 @@ export default function Communities() {
                           description: newDescription.trim(),
                           creator_id: authUser.id,
                           member_count: 1,
+                          visibility:
+                            visibility === "request"
+                              ? "request"
+                              : visibility === "closed"
+                                ? "closed"
+                                : "public",
                         })
                         .select("*")
                         .single();
@@ -439,6 +472,7 @@ export default function Communities() {
                       await supabase.from("community_members").insert({
                         community_id: newCommunity.id,
                         user_id: authUser.id,
+                        role: "leader",
                       });
                       setCommunities((prev) => [newCommunity, ...prev]);
                       setShowCreate(false);

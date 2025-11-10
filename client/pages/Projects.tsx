@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Globe, Zap, Plus, Calendar, Target } from "lucide-react";
 import BackButton from "@/components/BackButton";
 import LanguageToggle from "@/components/LanguageToggle";
+import NotificationBell from "@/components/NotificationBell";
 import ChatBubble from "@/components/ChatBubble";
 import { useI18n } from "@/lib/i18n";
 import {
@@ -207,6 +208,7 @@ export default function Projects() {
           </div>
           <div className="flex items-center gap-2">
             <LanguageToggle lang={lang} setLang={setLang} />
+            <NotificationBell />
             <button
               onClick={() => setShowCreate(true)}
               className="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-primary-foreground font-medium hover:shadow-lg transition-all"
