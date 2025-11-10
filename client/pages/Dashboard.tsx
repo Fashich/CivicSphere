@@ -314,6 +314,18 @@ export default function Dashboard() {
           </p>
         </div>
 
+        {/* Notification Center */}
+        <div className="mb-8 p-4 bg-blue-500/10 border border-blue-500/20 rounded-lg">
+          <div className="flex items-center gap-2 mb-2">
+            <span className="text-sm font-semibold text-blue-600">
+              {t("notificationsLabel") || "Notifikasi"}
+            </span>
+          </div>
+          <p className="text-sm text-muted-foreground">
+            {t("noNotifications") || "Tidak ada notifikasi baru saat ini"}
+          </p>
+        </div>
+
         {/* Quick Stats */}
         <div className="grid md:grid-cols-4 gap-4 mb-8">
           {[
