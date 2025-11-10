@@ -334,29 +334,34 @@ export default function Dashboard() {
               label: t("actionsLabel"),
               value: actionsCount,
               color: "from-green-500/20 to-green-600/20",
+              onClick: undefined,
             },
             {
               icon: Users,
               label: t("communitiesLabel"),
               value: communitiesCount,
               color: "from-blue-500/20 to-blue-600/20",
+              onClick: undefined,
             },
             {
               icon: Zap,
               label: t("projectsLabel"),
               value: projectsCount,
               color: "from-yellow-500/20 to-yellow-600/20",
+              onClick: undefined,
             },
             {
               icon: BarChart3,
               label: t("analyticsLabel"),
               value: t("viewTrends"),
               color: "from-purple-500/20 to-purple-600/20",
+              onClick: () => navigate("/reports"),
             },
           ].map((stat) => (
-            <div
+            <button
               key={stat.label}
-              className={`bg-gradient-to-br ${stat.color} border border-border rounded-lg p-6 hover:border-primary transition-colors`}
+              onClick={stat.onClick}
+              className={`bg-gradient-to-br ${stat.color} border border-border rounded-lg p-6 hover:border-primary transition-colors text-left w-full ${stat.onClick ? "cursor-pointer hover:shadow-lg" : ""}`}
             >
               <div className="flex items-center justify-between mb-2">
                 <span className="text-sm font-medium text-muted-foreground">
@@ -369,7 +374,7 @@ export default function Dashboard() {
                   ? stat.value.toLocaleString()
                   : stat.value}
               </div>
-            </div>
+            </button>
           ))}
         </div>
 
