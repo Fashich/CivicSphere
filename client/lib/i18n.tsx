@@ -212,6 +212,44 @@ const translations: Record<Lang, Record<string, string>> = {
     // Notifications
     notificationsLabel: "Notifications",
     noNotifications: "No new notifications",
+
+    // Global Map
+    globalMapTitle: "Global Interactive Map",
+    globalMapSubtitle:
+      "See all global climate actions in real-time on an interactive map",
+    actionType: "Action Type",
+    co2Saved: "CO2 Saved",
+    createdDate: "Created Date",
+
+    // Chat
+    chatFriends: "Friends",
+    addFriend: "Add Friend",
+    searchFriends: "Search friends...",
+    communityChat: "Community Chat",
+    publicChat: "Public chat",
+    tapToChat: "Click to chat",
+    remove: "Remove",
+    noFriendsFound: "No friends found",
+    noFriends: "No friends yet",
+    noMessages: "No messages",
+    userNotFound: "User not found",
+    friendRequestSent: "Friend request sent",
+    friendRemoved: "Friend removed",
+    enterFriendUsername: "Enter your friend's username",
+
+    // Global Collaboration
+    globalCollaborationTitle: "Global Collaboration",
+    globalCollaborationSubtitle:
+      "Connect with communities around the world and see the impact of global collaboration",
+    totalCommunities: "Total Communities",
+    activeActions: "Active Actions",
+    totalParticipants: "Total Participants",
+    collaborationTrends: "Collaboration Trends",
+    topCommunities: "Top Communities",
+    viewCommunity: "View Community",
+    participants: "Participants",
+    actions: "Actions",
+    noData: "No data",
   },
   id: {
     getStarted: "Mulai Sekarang",
