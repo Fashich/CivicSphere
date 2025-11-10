@@ -36,7 +36,7 @@ import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { initSentry } from "@/lib/sentry";
 import { I18nProvider } from "@/lib/i18n";
 
-const App = () => {
+function App() {
   useEffect(() => {
     initSentry();
 
