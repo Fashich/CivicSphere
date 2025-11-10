@@ -90,8 +90,9 @@ export default function Index() {
                 alt="CivicSphere"
                 className="w-8 h-8 rounded-md object-cover"
               />
-              <span className="text-xl font-bold text-primary">
+              <span className="text-xl font-bold text-primary flex items-center">
                 CivicSphere
+                <span className="text-xs font-medium text-muted-foreground ml-2 bg-muted/30 px-2 py-1 rounded">v1.0.1</span>
               </span>
             </div>
           </div>
