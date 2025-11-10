@@ -146,7 +146,7 @@ export const CommunityDetail: React.FC<CommunityDetailProps> = ({
             const userMember = mapped.find((m) => m.id === authUser.id);
             setIsMember(!!userMember);
             setIsLeader(
-              userMember?.role === "admin" || userMember?.role === "moderator"
+              userMember?.role === "admin" || userMember?.role === "moderator",
             );
           }
         }
@@ -334,10 +334,7 @@ export const CommunityDetail: React.FC<CommunityDetailProps> = ({
         .delete()
         .eq("community_id", communityId);
 
-      await supabase
-        .from("communities")
-        .delete()
-        .eq("id", communityId);
+      await supabase.from("communities").delete().eq("id", communityId);
 
       setShowDeleteDialog(false);
       alert("Komunitas berhasil dihapus");
@@ -762,7 +759,8 @@ export const CommunityDetail: React.FC<CommunityDetailProps> = ({
           </DialogHeader>
           <div className="py-4">
             <p className="text-sm text-muted-foreground">
-              Anda akan bergabung dengan komunitas <strong>{community?.name}</strong>
+              Anda akan bergabung dengan komunitas{" "}
+              <strong>{community?.name}</strong>
             </p>
           </div>
           <DialogFooter className="gap-2">
@@ -805,7 +803,10 @@ export const CommunityDetail: React.FC<CommunityDetailProps> = ({
       </Dialog>
 
       {/* Announcement Dialog */}
-      <Dialog open={showAnnouncementDialog} onOpenChange={setShowAnnouncementDialog}>
+      <Dialog
+        open={showAnnouncementDialog}
+        onOpenChange={setShowAnnouncementDialog}
+      >
         <DialogContent>
           <DialogHeader>
             <DialogTitle>{t("announcementTitle")}</DialogTitle>
@@ -823,10 +824,15 @@ export const CommunityDetail: React.FC<CommunityDetailProps> = ({
             </div>
           </div>
           <DialogFooter className="gap-2">
-            <Button variant="outline" onClick={() => setShowAnnouncementDialog(false)}>
+            <Button
+              variant="outline"
+              onClick={() => setShowAnnouncementDialog(false)}
+            >
               {t("cancel")}
             </Button>
-            <Button onClick={handlePostAnnouncement}>{t("postAnnouncement")}</Button>
+            <Button onClick={handlePostAnnouncement}>
+              {t("postAnnouncement")}
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -835,16 +841,22 @@ export const CommunityDetail: React.FC<CommunityDetailProps> = ({
       <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle className="text-destructive">{t("deleteCommunityTitle")}</DialogTitle>
+            <DialogTitle className="text-destructive">
+              {t("deleteCommunityTitle")}
+            </DialogTitle>
             <DialogDescription>{t("deleteCommunityDesc")}</DialogDescription>
           </DialogHeader>
           <div className="py-4">
             <p className="text-sm text-muted-foreground">
-              Komunitas <strong>{community?.name}</strong> dan semua data di dalamnya akan dihapus secara permanen.
+              Komunitas <strong>{community?.name}</strong> dan semua data di
+              dalamnya akan dihapus secara permanen.
             </p>
           </div>
           <DialogFooter className="gap-2">
-            <Button variant="outline" onClick={() => setShowDeleteDialog(false)}>
+            <Button
+              variant="outline"
+              onClick={() => setShowDeleteDialog(false)}
+            >
               {t("cancel")}
             </Button>
             <Button variant="destructive" onClick={handleDeleteCommunity}>

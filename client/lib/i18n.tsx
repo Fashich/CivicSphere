@@ -86,7 +86,8 @@ const translations: Record<Lang, Record<string, string>> = {
     announcementPlaceholder: "Share important news with your community...",
     deleteCommunity: "Delete Community",
     deleteCommunityTitle: "Delete Community",
-    deleteCommunityDesc: "This action cannot be undone. All members will be removed from this community.",
+    deleteCommunityDesc:
+      "This action cannot be undone. All members will be removed from this community.",
     confirmDelete: "Delete Community",
     joinConfirm: "Join Community",
     joinCommunityTitle: "Join Community",
@@ -396,7 +397,8 @@ const translations: Record<Lang, Record<string, string>> = {
     announcementPlaceholder: "Bagikan berita penting dengan komunitas Anda...",
     deleteCommunity: "Hapus Komunitas",
     deleteCommunityTitle: "Hapus Komunitas",
-    deleteCommunityDesc: "Tindakan ini tidak dapat dibatalkan. Semua anggota akan dihapus dari komunitas ini.",
+    deleteCommunityDesc:
+      "Tindakan ini tidak dapat dibatalkan. Semua anggota akan dihapus dari komunitas ini.",
     confirmDelete: "Hapus Komunitas",
     joinConfirm: "Bergabung Komunitas",
     joinCommunityTitle: "Bergabung Komunitas",
