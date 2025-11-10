@@ -210,8 +210,14 @@ export default function Dashboard() {
   }, [navigate]);
 
   const handleLogout = async () => {
+    setShowLogoutConfirm(false);
     await supabase.auth.signOut();
     navigate("/");
+  };
+
+  const handleLogoutClick = () => {
+    setShowLogoutConfirm(true);
+    setShowProfileMenu(false);
   };
 
   const handleSeedData = async () => {
