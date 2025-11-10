@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
+import { useI18n } from "@/lib/i18n";
 import {
   Users,
   Plus,
@@ -11,7 +12,20 @@ import {
   Mail,
   MapPin,
   Calendar,
+  LogOut,
+  Megaphone,
 } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
 interface Member {
   id: string;
@@ -68,6 +82,7 @@ export const CommunityDetail: React.FC<CommunityDetailProps> = ({
   onClose,
   isOwner = false,
 }) => {
+  const { t } = useI18n();
   const [activeTab, setActiveTab] = useState<TabType>("overview");
   const [community, setCommunity] = useState<Community | null>(null);
   const [members, setMembers] = useState<Member[]>([]);
@@ -77,6 +92,14 @@ export const CommunityDetail: React.FC<CommunityDetailProps> = ({
   const [newMessage, setNewMessage] = useState("");
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [isMember, setIsMember] = useState<boolean>(false);
+  const [isLeader, setIsLeader] = useState<boolean>(false);
+  const [showJoinDialog, setShowJoinDialog] = useState(false);
+  const [showLeaveDialog, setShowLeaveDialog] = useState(false);
+  const [showAnnouncementDialog, setShowAnnouncementDialog] = useState(false);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [farewellMessage, setFarewellMessage] = useState("");
+  const [announcementText, setAnnouncementText] = useState("");
+  const [leaveWithMessage, setLeaveWithMessage] = useState(false);
 
   useEffect(() => {
     const loadCommunityData = async () => {
@@ -119,7 +142,13 @@ export const CommunityDetail: React.FC<CommunityDetailProps> = ({
             joined_at: m.joined_at,
           }));
           setMembers(mapped);
-          if (authUser) setIsMember(mapped.some((m) => m.id === authUser.id));
+          if (authUser) {
+            const userMember = mapped.find((m) => m.id === authUser.id);
+            setIsMember(!!userMember);
+            setIsLeader(
+              userMember?.role === "admin" || userMember?.role === "moderator",
+            );
+          }
         }
 
         // Load projects
@@ -218,6 +247,104 @@ export const CommunityDetail: React.FC<CommunityDetailProps> = ({
     }
   };
 
+  const handleLeaveCommunity = async () => {
+    try {
+      if (!currentUser) return;
+
+      if (farewellMessage.trim()) {
+        await supabase.from("messages").insert({
+          community_id: communityId,
+          sender_id: currentUser.id,
+          content: `[${currentUser.email?.split("@")[0] || "User"}] ${farewellMessage}`,
+        });
+      }
+
+      await supabase
+        .from("community_members")
+        .delete()
+        .eq("community_id", communityId)
+        .eq("user_id", currentUser.id);
+
+      await supabase
+        .from("communities")
+        .update({
+          member_count: Math.max(0, (community?.member_count || 1) - 1),
+        })
+        .eq("id", communityId);
+
+      setIsMember(false);
+      setShowLeaveDialog(false);
+      setFarewellMessage("");
+      alert("Berhasil keluar dari komunitas");
+    } catch (error) {
+      console.error("Error leaving community:", error);
+      alert("Gagal keluar dari komunitas");
+    }
+  };
+
+  const handleJoinCommunity = async () => {
+    try {
+      if (!currentUser) return;
+
+      await supabase.from("community_members").insert({
+        community_id: communityId,
+        user_id: currentUser.id,
+        role: "member",
+      });
+
+      await supabase
+        .from("communities")
+        .update({
+          member_count: (community?.member_count || 0) + 1,
+        })
+        .eq("id", communityId);
+
+      setShowJoinDialog(false);
+      setIsMember(true);
+      alert("Berhasil bergabung ke komunitas");
+    } catch (error) {
+      console.error("Error joining community:", error);
+      alert("Gagal bergabung ke komunitas");
+    }
+  };
+
+  const handlePostAnnouncement = async () => {
+    try {
+      if (!announcementText.trim() || !currentUser) return;
+
+      await supabase.from("messages").insert({
+        community_id: communityId,
+        sender_id: currentUser.id,
+        content: `📢 [Pengumuman] ${announcementText}`,
+      });
+
+      setShowAnnouncementDialog(false);
+      setAnnouncementText("");
+      alert("Pengumuman berhasil diposting");
+    } catch (error) {
+      console.error("Error posting announcement:", error);
+      alert("Gagal memposting pengumuman");
+    }
+  };
+
+  const handleDeleteCommunity = async () => {
+    try {
+      await supabase
+        .from("community_members")
+        .delete()
+        .eq("community_id", communityId);
+
+      await supabase.from("communities").delete().eq("id", communityId);
+
+      setShowDeleteDialog(false);
+      alert("Komunitas berhasil dihapus");
+      onClose?.();
+    } catch (error) {
+      console.error("Error deleting community:", error);
+      alert("Gagal menghapus komunitas");
+    }
+  };
+
   if (loading) {
     return (
       <div className="w-full h-screen flex items-center justify-center">
@@ -273,6 +400,33 @@ export const CommunityDetail: React.FC<CommunityDetailProps> = ({
             </div>
           </div>
           <div className="flex items-center gap-2">
+            {isMember && currentUser && isLeader && (
+              <>
+                <button
+                  onClick={() => setShowAnnouncementDialog(true)}
+                  className="px-4 py-2 rounded-lg bg-blue-500/10 text-blue-600 hover:bg-blue-500/20 transition-colors flex items-center gap-2"
+                >
+                  <Megaphone className="w-4 h-4" />
+                  {t("postAnnouncement")}
+                </button>
+                <button
+                  onClick={() => setShowDeleteDialog(true)}
+                  className="px-4 py-2 rounded-lg bg-red-500/10 text-red-600 hover:bg-red-500/20 transition-colors flex items-center gap-2"
+                >
+                  <Trash2 className="w-4 h-4" />
+                  {t("deleteCommunity")}
+                </button>
+              </>
+            )}
+            {isMember && currentUser && (
+              <button
+                onClick={() => setShowLeaveDialog(true)}
+                className="px-4 py-2 rounded-lg bg-destructive/10 text-destructive hover:bg-destructive/20 transition-colors flex items-center gap-2"
+              >
+                <LogOut className="w-4 h-4" />
+                {t("leave")}
+              </button>
+            )}
             {!isMember &&
               currentUser &&
               (community.visibility === "closed" ? (
@@ -280,7 +434,7 @@ export const CommunityDetail: React.FC<CommunityDetailProps> = ({
                   className="px-4 py-2 rounded-lg bg-muted cursor-not-allowed"
                   disabled
                 >
-                  Tertutup
+                  {t("closed")}
                 </button>
               ) : community.visibility === "request" ? (
                 <button
@@ -297,32 +451,14 @@ export const CommunityDetail: React.FC<CommunityDetailProps> = ({
                   }}
                   className="px-4 py-2 rounded-lg bg-primary text-primary-foreground"
                 >
-                  Ajukan Bergabung
+                  {t("requestToJoin")}
                 </button>
               ) : (
                 <button
-                  onClick={async () => {
-                    try {
-                      await supabase.from("community_members").insert({
-                        community_id: community.id,
-                        user_id: currentUser.id,
-                        role: "member",
-                      });
-                      await supabase
-                        .from("communities")
-                        .update({
-                          member_count: (community.member_count || 0) + 1,
-                        })
-                        .eq("id", community.id);
-                      alert("Bergabung ke komunitas");
-                      setIsMember(true);
-                    } catch (e) {
-                      alert(String(e));
-                    }
-                  }}
+                  onClick={() => setShowJoinDialog(true)}
                   className="px-4 py-2 rounded-lg bg-primary text-primary-foreground"
                 >
-                  Bergabung
+                  {t("joinCommunity")}
                 </button>
               ))}
             {onClose && (
@@ -613,6 +749,122 @@ export const CommunityDetail: React.FC<CommunityDetailProps> = ({
           </div>
         )}
       </main>
+
+      {/* Join Dialog */}
+      <Dialog open={showJoinDialog} onOpenChange={setShowJoinDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t("joinCommunityTitle")}</DialogTitle>
+            <DialogDescription>{t("joinCommunityDesc")}</DialogDescription>
+          </DialogHeader>
+          <div className="py-4">
+            <p className="text-sm text-muted-foreground">
+              Anda akan bergabung dengan komunitas{" "}
+              <strong>{community?.name}</strong>
+            </p>
+          </div>
+          <DialogFooter className="gap-2">
+            <Button variant="outline" onClick={() => setShowJoinDialog(false)}>
+              {t("cancel")}
+            </Button>
+            <Button onClick={handleJoinCommunity}>{t("confirmJoin")}</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Leave Dialog */}
+      <Dialog open={showLeaveDialog} onOpenChange={setShowLeaveDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t("leaveCommunityTitle")}</DialogTitle>
+            <DialogDescription>{t("leaveCommunityDesc")}</DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div>
+              <label className="text-sm font-medium">{t("farewell")}</label>
+              <Textarea
+                value={farewellMessage}
+                onChange={(e) => setFarewellMessage(e.target.value)}
+                placeholder={t("farewellPlaceholder")}
+                className="mt-2"
+                rows={3}
+              />
+            </div>
+          </div>
+          <DialogFooter className="gap-2">
+            <Button variant="outline" onClick={() => setShowLeaveDialog(false)}>
+              {t("cancel")}
+            </Button>
+            <Button variant="destructive" onClick={handleLeaveCommunity}>
+              {t("confirmLeave")}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Announcement Dialog */}
+      <Dialog
+        open={showAnnouncementDialog}
+        onOpenChange={setShowAnnouncementDialog}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t("announcementTitle")}</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div>
+              <label className="text-sm font-medium">{t("announcement")}</label>
+              <Textarea
+                value={announcementText}
+                onChange={(e) => setAnnouncementText(e.target.value)}
+                placeholder={t("announcementPlaceholder")}
+                className="mt-2"
+                rows={4}
+              />
+            </div>
+          </div>
+          <DialogFooter className="gap-2">
+            <Button
+              variant="outline"
+              onClick={() => setShowAnnouncementDialog(false)}
+            >
+              {t("cancel")}
+            </Button>
+            <Button onClick={handlePostAnnouncement}>
+              {t("postAnnouncement")}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete Community Dialog */}
+      <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle className="text-destructive">
+              {t("deleteCommunityTitle")}
+            </DialogTitle>
+            <DialogDescription>{t("deleteCommunityDesc")}</DialogDescription>
+          </DialogHeader>
+          <div className="py-4">
+            <p className="text-sm text-muted-foreground">
+              Komunitas <strong>{community?.name}</strong> dan semua data di
+              dalamnya akan dihapus secara permanen.
+            </p>
+          </div>
+          <DialogFooter className="gap-2">
+            <Button
+              variant="outline"
+              onClick={() => setShowDeleteDialog(false)}
+            >
+              {t("cancel")}
+            </Button>
+            <Button variant="destructive" onClick={handleDeleteCommunity}>
+              {t("confirmDelete")}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

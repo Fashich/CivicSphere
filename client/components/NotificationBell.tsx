@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Bell, CheckCheck } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 

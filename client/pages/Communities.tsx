@@ -270,7 +270,7 @@ export default function Communities() {
               onClick={() => navigate("/requests")}
               className="px-4 py-2 rounded-lg hover:bg-muted transition-colors font-medium text-sm"
             >
-              Kelola Permohonan
+              {t("manageRequests")}
             </button>
             <button
               onClick={() => setShowCreate(true)}
@@ -415,15 +415,17 @@ export default function Communities() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium">Visibilitas</label>
+                <label className="block text-sm font-medium">
+                  {t("visibility")}
+                </label>
                 <select
                   value={visibility}
                   onChange={(e) => setVisibility(e.target.value as any)}
                   className="w-full px-3 py-2 rounded border bg-card"
                 >
-                  <option value="public">Terbuka</option>
-                  <option value="request">Butuh Permohonan</option>
-                  <option value="closed">Tutup</option>
+                  <option value="public">{t("visibilityPublic")}</option>
+                  <option value="request">{t("visibilityRequest")}</option>
+                  <option value="closed">{t("visibilityClosed")}</option>
                 </select>
               </div>
             </div>
@@ -472,7 +474,7 @@ export default function Communities() {
                       await supabase.from("community_members").insert({
                         community_id: newCommunity.id,
                         user_id: authUser.id,
-                        role: "leader",
+                        role: "admin",
                       });
                       setCommunities((prev) => [newCommunity, ...prev]);
                       setShowCreate(false);
