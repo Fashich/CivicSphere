@@ -415,15 +415,17 @@ export default function Communities() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium">Visibilitas</label>
+                <label className="block text-sm font-medium">
+                  {t("visibility")}
+                </label>
                 <select
                   value={visibility}
                   onChange={(e) => setVisibility(e.target.value as any)}
                   className="w-full px-3 py-2 rounded border bg-card"
                 >
-                  <option value="public">Terbuka</option>
-                  <option value="request">Butuh Permohonan</option>
-                  <option value="closed">Tutup</option>
+                  <option value="public">{t("visibilityPublic")}</option>
+                  <option value="request">{t("visibilityRequest")}</option>
+                  <option value="closed">{t("visibilityClosed")}</option>
                 </select>
               </div>
             </div>
