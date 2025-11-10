@@ -144,6 +144,6 @@ function App() {
       </I18nProvider>
     </ErrorBoundary>
   );
-};
+}
 
-createRoot(document.getElementById("root")!).render(<App />);
+export default App;
