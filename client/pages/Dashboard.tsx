@@ -44,6 +44,7 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [seeding, setSeeding] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const [communitiesCount, setCommunitiesCount] = useState<number>(0);
   const [actionsCount, setActionsCount] = useState<number>(0);
   const [projectsCount, setProjectsCount] = useState<number>(0);
