@@ -248,10 +248,16 @@ export const CommunityDetail: React.FC<CommunityDetailProps> = ({
   };
 
   const handleLeaveCommunity = async () => {
-    if (!confirm("Yakin ingin keluar dari komunitas ini?")) return;
-
     try {
       if (!currentUser) return;
+
+      if (farewellMessage.trim()) {
+        await supabase.from("messages").insert({
+          community_id: communityId,
+          sender_id: currentUser.id,
+          content: `[${currentUser.email?.split("@")[0] || "User"}] ${farewellMessage}`,
+        });
+      }
 
       await supabase
         .from("community_members")
@@ -267,10 +273,78 @@ export const CommunityDetail: React.FC<CommunityDetailProps> = ({
         .eq("id", communityId);
 
       setIsMember(false);
+      setShowLeaveDialog(false);
+      setFarewellMessage("");
       alert("Berhasil keluar dari komunitas");
     } catch (error) {
       console.error("Error leaving community:", error);
       alert("Gagal keluar dari komunitas");
+    }
+  };
+
+  const handleJoinCommunity = async () => {
+    try {
+      if (!currentUser) return;
+
+      await supabase.from("community_members").insert({
+        community_id: communityId,
+        user_id: currentUser.id,
+        role: "member",
+      });
+
+      await supabase
+        .from("communities")
+        .update({
+          member_count: (community?.member_count || 0) + 1,
+        })
+        .eq("id", communityId);
+
+      setShowJoinDialog(false);
+      setIsMember(true);
+      alert("Berhasil bergabung ke komunitas");
+    } catch (error) {
+      console.error("Error joining community:", error);
+      alert("Gagal bergabung ke komunitas");
+    }
+  };
+
+  const handlePostAnnouncement = async () => {
+    try {
+      if (!announcementText.trim() || !currentUser) return;
+
+      await supabase.from("messages").insert({
+        community_id: communityId,
+        sender_id: currentUser.id,
+        content: `📢 [Pengumuman] ${announcementText}`,
+      });
+
+      setShowAnnouncementDialog(false);
+      setAnnouncementText("");
+      alert("Pengumuman berhasil diposting");
+    } catch (error) {
+      console.error("Error posting announcement:", error);
+      alert("Gagal memposting pengumuman");
+    }
+  };
+
+  const handleDeleteCommunity = async () => {
+    try {
+      await supabase
+        .from("community_members")
+        .delete()
+        .eq("community_id", communityId);
+
+      await supabase
+        .from("communities")
+        .delete()
+        .eq("id", communityId);
+
+      setShowDeleteDialog(false);
+      alert("Komunitas berhasil dihapus");
+      onClose?.();
+    } catch (error) {
+      console.error("Error deleting community:", error);
+      alert("Gagal menghapus komunitas");
     }
   };
 
