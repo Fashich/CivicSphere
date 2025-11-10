@@ -413,6 +413,16 @@ const translations: Record<Lang, Record<string, string>> = {
     // Chat
     send: "Kirim",
     chatPlaceholder: "Tulis pesan...",
+
+    // Logout
+    confirmLogout: "Konfirmasi Keluar",
+    logoutWarning:
+      "Anda akan keluar dari CivicSphere. Anda perlu login kembali untuk mengakses dashboard Anda.",
+    logout: "Keluar",
+
+    // Notifications
+    notificationsLabel: "Notifikasi",
+    noNotifications: "Tidak ada notifikasi baru",
   },
 };
 
