@@ -461,6 +461,44 @@ const translations: Record<Lang, Record<string, string>> = {
     // Notifications
     notificationsLabel: "Notifikasi",
     noNotifications: "Tidak ada notifikasi baru",
+
+    // Global Map
+    globalMapTitle: "Peta Interaktif Global",
+    globalMapSubtitle:
+      "Lihat semua aksi iklim global secara real-time di peta interaktif",
+    actionType: "Jenis Aksi",
+    co2Saved: "CO2 Tersimpan",
+    createdDate: "Tanggal Dibuat",
+
+    // Chat
+    chatFriends: "Teman",
+    addFriend: "Tambah Teman",
+    searchFriends: "Cari teman...",
+    communityChat: "Chat Komunitas",
+    publicChat: "Chat publik",
+    tapToChat: "Ketuk untuk chat",
+    remove: "Hapus",
+    noFriendsFound: "Teman tidak ditemukan",
+    noFriends: "Belum ada teman",
+    noMessages: "Belum ada pesan",
+    userNotFound: "Pengguna tidak ditemukan",
+    friendRequestSent: "Permintaan pertemanan dikirim",
+    friendRemoved: "Teman dihapus",
+    enterFriendUsername: "Masukkan username teman Anda",
+
+    // Global Collaboration
+    globalCollaborationTitle: "Kolaborasi Global",
+    globalCollaborationSubtitle:
+      "Terhubung dengan komunitas di seluruh dunia dan lihat dampak kolaborasi global",
+    totalCommunities: "Total Komunitas",
+    activeActions: "Aksi Aktif",
+    totalParticipants: "Total Peserta",
+    collaborationTrends: "Tren Kolaborasi",
+    topCommunities: "Komunitas Terkemuka",
+    viewCommunity: "Lihat Komunitas",
+    participants: "Peserta",
+    actions: "Aksi",
+    noData: "Tidak ada data",
   },
 };
 
