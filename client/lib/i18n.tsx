@@ -202,6 +202,54 @@ const translations: Record<Lang, Record<string, string>> = {
     // Chat
     send: "Send",
     chatPlaceholder: "Type a message...",
+
+    // Logout
+    confirmLogout: "Confirm Sign Out",
+    logoutWarning:
+      "You will be signed out from CivicSphere. You will need to log in again to access your dashboard.",
+    logout: "Sign Out",
+
+    // Notifications
+    notificationsLabel: "Notifications",
+    noNotifications: "No new notifications",
+
+    // Global Map
+    globalMapTitle: "Global Interactive Map",
+    globalMapSubtitle:
+      "See all global climate actions in real-time on an interactive map",
+    actionType: "Action Type",
+    co2Saved: "CO2 Saved",
+    createdDate: "Created Date",
+
+    // Chat
+    chatFriends: "Friends",
+    addFriend: "Add Friend",
+    searchFriends: "Search friends...",
+    communityChat: "Community Chat",
+    publicChat: "Public chat",
+    tapToChat: "Click to chat",
+    remove: "Remove",
+    noFriendsFound: "No friends found",
+    noFriends: "No friends yet",
+    noMessages: "No messages",
+    userNotFound: "User not found",
+    friendRequestSent: "Friend request sent",
+    friendRemoved: "Friend removed",
+    enterFriendUsername: "Enter your friend's username",
+
+    // Global Collaboration
+    globalCollaborationTitle: "Global Collaboration",
+    globalCollaborationSubtitle:
+      "Connect with communities around the world and see the impact of global collaboration",
+    totalCommunities: "Total Communities",
+    activeActions: "Active Actions",
+    totalParticipants: "Total Participants",
+    collaborationTrends: "Collaboration Trends",
+    topCommunities: "Top Communities",
+    viewCommunity: "View Community",
+    participants: "Participants",
+    actions: "Actions",
+    noData: "No data",
   },
   id: {
     getStarted: "Mulai Sekarang",
@@ -403,6 +451,54 @@ const translations: Record<Lang, Record<string, string>> = {
     // Chat
     send: "Kirim",
     chatPlaceholder: "Tulis pesan...",
+
+    // Logout
+    confirmLogout: "Konfirmasi Keluar",
+    logoutWarning:
+      "Anda akan keluar dari CivicSphere. Anda perlu login kembali untuk mengakses dashboard Anda.",
+    logout: "Keluar",
+
+    // Notifications
+    notificationsLabel: "Notifikasi",
+    noNotifications: "Tidak ada notifikasi baru",
+
+    // Global Map
+    globalMapTitle: "Peta Interaktif Global",
+    globalMapSubtitle:
+      "Lihat semua aksi iklim global secara real-time di peta interaktif",
+    actionType: "Jenis Aksi",
+    co2Saved: "CO2 Tersimpan",
+    createdDate: "Tanggal Dibuat",
+
+    // Chat
+    chatFriends: "Teman",
+    addFriend: "Tambah Teman",
+    searchFriends: "Cari teman...",
+    communityChat: "Chat Komunitas",
+    publicChat: "Chat publik",
+    tapToChat: "Ketuk untuk chat",
+    remove: "Hapus",
+    noFriendsFound: "Teman tidak ditemukan",
+    noFriends: "Belum ada teman",
+    noMessages: "Belum ada pesan",
+    userNotFound: "Pengguna tidak ditemukan",
+    friendRequestSent: "Permintaan pertemanan dikirim",
+    friendRemoved: "Teman dihapus",
+    enterFriendUsername: "Masukkan username teman Anda",
+
+    // Global Collaboration
+    globalCollaborationTitle: "Kolaborasi Global",
+    globalCollaborationSubtitle:
+      "Terhubung dengan komunitas di seluruh dunia dan lihat dampak kolaborasi global",
+    totalCommunities: "Total Komunitas",
+    activeActions: "Aksi Aktif",
+    totalParticipants: "Total Peserta",
+    collaborationTrends: "Tren Kolaborasi",
+    topCommunities: "Komunitas Terkemuka",
+    viewCommunity: "Lihat Komunitas",
+    participants: "Peserta",
+    actions: "Aksi",
+    noData: "Tidak ada data",
   },
 };
 

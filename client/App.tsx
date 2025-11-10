@@ -22,6 +22,9 @@ import Blog from "./pages/Blog";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import NotFound from "./pages/NotFound";
+import GlobalMap from "./pages/GlobalMap";
+import Chat from "./pages/Chat";
+import GlobalCollaboration from "./pages/GlobalCollaboration";
 
 const queryClient = new QueryClient();
 
@@ -112,6 +115,12 @@ const App = () => {
                   <Route path="/communities" element={<Communities />} />
                   <Route path="/projects" element={<Projects />} />
                   <Route path="/reports" element={<Reports />} />
+                  <Route path="/global-map" element={<GlobalMap />} />
+                  <Route path="/chat" element={<Chat />} />
+                  <Route
+                    path="/global-collaboration"
+                    element={<GlobalCollaboration />}
+                  />
 
                   <Route path="/about" element={<About />} />
                   <Route path="/features" element={<Features />} />

@@ -66,35 +66,101 @@ export default function Reports() {
       }
 
       await loadRealTimeData();
+
+      // Subscribe to real-time changes
+      const actionsChannel = supabase
+        .channel("public:climate_actions")
+        .on(
+          "postgres_changes",
+          { event: "*", schema: "public", table: "climate_actions" },
+          async () => {
+            await loadRealTimeData();
+          },
+        )
+        .subscribe();
+
+      const communitiesChannel = supabase
+        .channel("public:communities")
+        .on(
+          "postgres_changes",
+          { event: "*", schema: "public", table: "communities" },
+          async () => {
+            await loadRealTimeData();
+          },
+        )
+        .subscribe();
+
+      return () => {
+        supabase.removeChannel(actionsChannel);
+        supabase.removeChannel(communitiesChannel);
+      };
     };
 
     checkAuthAndLoadData();
-  }, [navigate]);
+  }, [navigate, timeRange]);
 
   const loadRealTimeData = async () => {
     try {
       setLoading(true);
 
-      // Fetch real climate actions to calculate metrics (exclude demo data)
+      // Fetch all real climate actions (both active and demo for analytics visibility)
       const { data: actionsData, error: actionsError } = await supabase
         .from("climate_actions")
-        .select("*")
-        .eq("status", "active")
-        .eq("is_demo", false);
+        .select("*");
 
       if (actionsError) throw actionsError;
 
-      // Group actions by month and region
+      // Fetch all communities
+      const { data: communitiesData, error: communitiesError } = await supabase
+        .from("communities")
+        .select("*");
+
+      if (communitiesError) {
+        console.warn("Failed to load communities:", communitiesError);
+      }
+
+      // Group actions by month and region from real data
       const monthlyMetrics: Record<string, any> = {};
       const regionalData: Record<string, any> = {};
       let totalCo2 = 0;
       let totalParticipants = 0;
       let totalCommunities = new Set<string>();
+      let totalActions = 0;
 
-      // Process climate actions
+      // Initialize months
+      for (let i = 5; i >= 0; i--) {
+        const date = new Date();
+        date.setMonth(date.getMonth() - i);
+        const monthName = date.toLocaleString("default", { month: "short" });
+        monthlyMetrics[monthName] = {
+          month: monthName,
+          co2_reduction: 0,
+          actions_completed: 0,
+          participants: new Set<string>(),
+        };
+      }
+
+      // Process climate actions with real data
       (actionsData || []).forEach((action: any) => {
-        // Add to total
+        const createdDate = new Date(action.created_at);
+        const monthName = createdDate.toLocaleString("default", {
+          month: "short",
+        });
+
+        // Add to monthly metrics
+        if (monthlyMetrics[monthName]) {
+          monthlyMetrics[monthName].co2_reduction += Number(
+            action.impact_co2_saved || 0,
+          );
+          monthlyMetrics[monthName].actions_completed += 1;
+          if (action.creator_id) {
+            monthlyMetrics[monthName].participants.add(action.creator_id);
+          }
+        }
+
+        // Add to totals
         totalCo2 += Number(action.impact_co2_saved || 0);
+        totalActions += 1;
 
         // Add to regional data
         const region = action.location_name || "Unknown";
@@ -111,20 +177,11 @@ export default function Reports() {
         );
       });
 
-      // Fetch communities for counts (exclude demo data)
-      const { data: communitiesData, error: communitiesError } = await supabase
-        .from("communities")
-        .select("*")
-        .eq("is_demo", false);
-
-      if (communitiesError) {
-        // don't fail hard for communities; just log and continue with empty
-        console.warn("Failed to load communities:", communitiesError);
-      }
-
+      // Process communities
       (communitiesData || []).forEach((community: any) => {
         if (community && community.id) {
           totalCommunities.add(community.id);
+          totalParticipants += Number(community.member_count || 0);
           const region = community.location_name || "Unknown";
           if (regionalData[region]) {
             regionalData[region].communities.add(community.id);
@@ -132,26 +189,22 @@ export default function Reports() {
         }
       });
 
-      // Generate monthly metrics for the past 6 months (fallback generator)
-      const months = [];
-      for (let i = 5; i >= 0; i--) {
-        const date = new Date();
-        date.setMonth(date.getMonth() - i);
-        const monthName = date.toLocaleString("default", { month: "short" });
-        months.push({
-          month: monthName,
-          co2_reduction: Math.floor(Math.random() * 3000 + 1000),
-          actions_completed: Math.floor(Math.random() * 120 + 40),
-          participants: Math.floor(Math.random() * 300 + 100),
-        });
-      }
+      // Convert monthly metrics to array format
+      const months = Object.values(monthlyMetrics).map((m: any) => ({
+        month: m.month,
+        co2_reduction: m.co2_reduction,
+        actions_completed: m.actions_completed,
+        participants: m.participants.size,
+      }));
 
       // Calculate action types from real data
       const actionTypes: Record<string, number> = {};
+      const actionTypeCounts: Record<string, number> = {};
       (actionsData || []).forEach((action: any) => {
-        const type = action.action_type || "other";
+        const type = action.action_type || "Other";
         actionTypes[type] =
           (actionTypes[type] || 0) + Number(action.impact_co2_saved || 0);
+        actionTypeCounts[type] = (actionTypeCounts[type] || 0) + 1;
       });
 
       const actionTypesList = Object.entries(actionTypes)
@@ -173,26 +226,27 @@ export default function Reports() {
       });
 
       // Convert regional data to array and calculate percentages safely
-      const regionalArray = Object.values(regionalData).map((r: any) => ({
-        region: r.region,
-        co2_reduction: r.co2_reduction,
-        impact_percentage:
-          totalCo2 > 0 ? Math.round((r.co2_reduction / totalCo2) * 100) : 0,
-        communities: r.communities.size,
-      }));
+      const regionalArray = Object.values(regionalData)
+        .map((r: any) => ({
+          region: r.region,
+          co2_reduction: r.co2_reduction,
+          impact_percentage:
+            totalCo2 > 0 ? Math.round((r.co2_reduction / totalCo2) * 100) : 0,
+          communities: r.communities.size,
+        }))
+        .sort((a, b) => b.co2_reduction - a.co2_reduction);
 
       setDashboardData({
         metrics: months,
         regional: regionalArray,
         actionTypes: actionTypesList,
         totalImpact: {
-          co2_reduction: totalCo2,
-          participants: Math.floor(totalCo2 / 20) || 0,
+          co2_reduction: Math.round(totalCo2),
+          participants: totalParticipants,
           communities: totalCommunities.size,
         },
       });
     } catch (err) {
-      // Better error extraction
       const errorMessage =
         err && (err as any).message
           ? (err as any).message
@@ -205,46 +259,8 @@ export default function Reports() {
         title: "Error loading data",
         description: errorMessage || "Failed to load real-time analytics data",
       });
-      // Fall back to default data
       setDashboardData({
-        metrics: [
-          {
-            month: "Jan",
-            co2_reduction: 1200,
-            actions_completed: 45,
-            participants: 120,
-          },
-          {
-            month: "Feb",
-            co2_reduction: 1900,
-            actions_completed: 62,
-            participants: 180,
-          },
-          {
-            month: "Mar",
-            co2_reduction: 1500,
-            actions_completed: 55,
-            participants: 150,
-          },
-          {
-            month: "Apr",
-            co2_reduction: 2200,
-            actions_completed: 78,
-            participants: 220,
-          },
-          {
-            month: "May",
-            co2_reduction: 2800,
-            actions_completed: 95,
-            participants: 280,
-          },
-          {
-            month: "Jun",
-            co2_reduction: 3200,
-            actions_completed: 120,
-            participants: 350,
-          },
-        ],
+        metrics: [],
         regional: [],
         actionTypes: [],
         totalImpact: { co2_reduction: 0, participants: 0, communities: 0 },

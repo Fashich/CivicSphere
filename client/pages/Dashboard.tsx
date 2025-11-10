@@ -19,8 +19,19 @@ import {
   Loader,
   User,
   ChevronDown,
+  AlertCircle,
 } from "lucide-react";
 import { seedDemoData } from "@/lib/seedData";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 interface UserProfile {
   id: string;
@@ -33,6 +44,7 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [seeding, setSeeding] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const [communitiesCount, setCommunitiesCount] = useState<number>(0);
   const [actionsCount, setActionsCount] = useState<number>(0);
   const [projectsCount, setProjectsCount] = useState<number>(0);
@@ -198,8 +210,14 @@ export default function Dashboard() {
   }, [navigate]);
 
   const handleLogout = async () => {
+    setShowLogoutConfirm(false);
     await supabase.auth.signOut();
     navigate("/");
+  };
+
+  const handleLogoutClick = () => {
+    setShowLogoutConfirm(true);
+    setShowProfileMenu(false);
   };
 
   const handleSeedData = async () => {
@@ -289,7 +307,7 @@ export default function Dashboard() {
                     Profil Saya
                   </button>
                   <button
-                    onClick={handleLogout}
+                    onClick={handleLogoutClick}
                     className="block w-full text-left px-4 py-2 hover:bg-muted transition-colors flex items-center gap-2 last:rounded-b-lg text-destructive"
                   >
                     <LogOut className="w-4 h-4" />
@@ -314,6 +332,18 @@ export default function Dashboard() {
           </p>
         </div>
 
+        {/* Notification Center */}
+        <div className="mb-8 p-4 bg-blue-500/10 border border-blue-500/20 rounded-lg">
+          <div className="flex items-center gap-2 mb-2">
+            <span className="text-sm font-semibold text-blue-600">
+              {t("notificationsLabel") || "Notifikasi"}
+            </span>
+          </div>
+          <p className="text-sm text-muted-foreground">
+            {t("noNotifications") || "Tidak ada notifikasi baru saat ini"}
+          </p>
+        </div>
+
         {/* Quick Stats */}
         <div className="grid md:grid-cols-4 gap-4 mb-8">
           {[
@@ -322,29 +352,34 @@ export default function Dashboard() {
               label: t("actionsLabel"),
               value: actionsCount,
               color: "from-green-500/20 to-green-600/20",
+              onClick: undefined,
             },
             {
               icon: Users,
               label: t("communitiesLabel"),
               value: communitiesCount,
               color: "from-blue-500/20 to-blue-600/20",
+              onClick: undefined,
             },
             {
               icon: Zap,
               label: t("projectsLabel"),
               value: projectsCount,
               color: "from-yellow-500/20 to-yellow-600/20",
+              onClick: undefined,
             },
             {
               icon: BarChart3,
               label: t("analyticsLabel"),
               value: t("viewTrends"),
               color: "from-purple-500/20 to-purple-600/20",
+              onClick: () => navigate("/reports"),
             },
           ].map((stat) => (
-            <div
+            <button
               key={stat.label}
-              className={`bg-gradient-to-br ${stat.color} border border-border rounded-lg p-6 hover:border-primary transition-colors`}
+              onClick={stat.onClick}
+              className={`bg-gradient-to-br ${stat.color} border border-border rounded-lg p-6 hover:border-primary transition-colors text-left w-full ${stat.onClick ? "cursor-pointer hover:shadow-lg" : ""}`}
             >
               <div className="flex items-center justify-between mb-2">
                 <span className="text-sm font-medium text-muted-foreground">
@@ -357,7 +392,7 @@ export default function Dashboard() {
                   ? stat.value.toLocaleString()
                   : stat.value}
               </div>
-            </div>
+            </button>
           ))}
         </div>
 
@@ -377,7 +412,7 @@ export default function Dashboard() {
                 description:
                   "Visualisasi aksi iklim di seluruh dunia dengan peta Leaflet interaktif, clustering, dan filter real-time",
                 action: "Jelajahi Peta",
-                navigate: "/communities",
+                navigate: "/global-map",
               },
               {
                 icon: Users,
@@ -393,7 +428,7 @@ export default function Dashboard() {
                 description:
                   "Berkomunikasi real-time dengan anggota komunitas untuk diskusi dan koordinasi proyek",
                 action: "Mulai Obrolan",
-                navigate: "/communities",
+                navigate: "/chat",
               },
               {
                 icon: Zap,
@@ -417,7 +452,7 @@ export default function Dashboard() {
                 description:
                   "Terhubung dengan komunitas di seluruh dunia dan berkolaborasi untuk aksi iklim bersama",
                 action: "Jelajahi Komunitas",
-                navigate: "/communities",
+                navigate: "/global-collaboration",
               },
             ].map((feature) => (
               <button
@@ -478,6 +513,34 @@ export default function Dashboard() {
           </div>
         </section>
       </main>
+
+      {/* Logout Confirmation Dialog */}
+      <AlertDialog open={showLogoutConfirm} onOpenChange={setShowLogoutConfirm}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <div className="flex items-center gap-2">
+              <AlertCircle className="w-5 h-5 text-destructive" />
+              <AlertDialogTitle>
+                {t("confirmLogout") || "Konfirmasi Keluar"}
+              </AlertDialogTitle>
+            </div>
+            <AlertDialogDescription>
+              {t("logoutWarning") ||
+                "Anda akan keluar dari CivicSphere. Anda perlu login kembali untuk mengakses dashboard."}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>{t("cancel") || "Batal"}</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleLogout}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              {t("logout") || "Keluar"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
       <ChatBubble />
     </div>
   );
