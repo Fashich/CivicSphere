@@ -273,9 +273,13 @@ export const CommunityDetail: React.FC<CommunityDetailProps> = ({
             </div>
           </div>
           <div className="flex items-center gap-2">
-            {!isMember && currentUser && (
-              community.visibility === "closed" ? (
-                <button className="px-4 py-2 rounded-lg bg-muted cursor-not-allowed" disabled>
+            {!isMember &&
+              currentUser &&
+              (community.visibility === "closed" ? (
+                <button
+                  className="px-4 py-2 rounded-lg bg-muted cursor-not-allowed"
+                  disabled
+                >
                   Tertutup
                 </button>
               ) : community.visibility === "request" ? (
@@ -306,7 +310,9 @@ export const CommunityDetail: React.FC<CommunityDetailProps> = ({
                       });
                       await supabase
                         .from("communities")
-                        .update({ member_count: (community.member_count || 0) + 1 })
+                        .update({
+                          member_count: (community.member_count || 0) + 1,
+                        })
                         .eq("id", community.id);
                       alert("Bergabung ke komunitas");
                       setIsMember(true);
@@ -318,8 +324,7 @@ export const CommunityDetail: React.FC<CommunityDetailProps> = ({
                 >
                   Bergabung
                 </button>
-              )
-            )}
+              ))}
             {onClose && (
               <button
                 onClick={onClose}

@@ -59,7 +59,9 @@ export default function Communities() {
   const [newName, setNewName] = useState("");
   const [newDescription, setNewDescription] = useState("");
   const [creating, setCreating] = useState(false);
-  const [visibility, setVisibility] = useState<"public" | "request" | "closed">("public");
+  const [visibility, setVisibility] = useState<"public" | "request" | "closed">(
+    "public",
+  );
 
   useEffect(() => {
     let communitiesChannel: any = null;
@@ -457,7 +459,12 @@ export default function Communities() {
                           description: newDescription.trim(),
                           creator_id: authUser.id,
                           member_count: 1,
-                          visibility: visibility === "request" ? "request" : visibility === "closed" ? "closed" : "public",
+                          visibility:
+                            visibility === "request"
+                              ? "request"
+                              : visibility === "closed"
+                                ? "closed"
+                                : "public",
                         })
                         .select("*")
                         .single();

@@ -334,7 +334,6 @@ export default function Dashboard() {
           </p>
         </div>
 
-
         {/* Quick Stats */}
         <div className="grid md:grid-cols-4 gap-4 mb-8">
           {[
@@ -390,8 +389,12 @@ export default function Dashboard() {
         {/* Features Section */}
         <section className="mb-8">
           <div className="mb-6">
-            <h2 className="text-2xl font-bold mb-2">{t("dashboard.featuresTitle")}</h2>
-            <p className="text-muted-foreground">{t("dashboard.featuresDesc")}</p>
+            <h2 className="text-2xl font-bold mb-2">
+              {t("dashboard.featuresTitle")}
+            </h2>
+            <p className="text-muted-foreground">
+              {t("dashboard.featuresDesc")}
+            </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
             {[
@@ -463,8 +466,12 @@ export default function Dashboard() {
           <div className="bg-gradient-to-r from-primary/10 to-secondary/10 border border-primary/20 rounded-lg p-8">
             <div className="flex items-start justify-between">
               <div>
-                <h2 className="text-2xl font-bold mb-2">{t("dashboard.demo.title")}</h2>
-                <p className="text-muted-foreground mb-4">{t("dashboard.demo.desc")}</p>
+                <h2 className="text-2xl font-bold mb-2">
+                  {t("dashboard.demo.title")}
+                </h2>
+                <p className="text-muted-foreground mb-4">
+                  {t("dashboard.demo.desc")}
+                </p>
                 <button
                   onClick={handleSeedData}
                   disabled={seeding}

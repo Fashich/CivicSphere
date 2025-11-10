@@ -33,7 +33,11 @@ export class ErrorBoundary extends React.Component<
             <h1 className="text-2xl font-bold mb-4">Terjadi kesalahan</h1>
             <p className="text-muted-foreground mb-6">
               Ada sesuatu yang salah pada aplikasi. Silakan muat ulang halaman
-              atau <a href="/support" className="underline text-primary">hubungi support</a> jika masalah berlanjut.
+              atau{" "}
+              <a href="/support" className="underline text-primary">
+                hubungi support
+              </a>{" "}
+              jika masalah berlanjut.
             </p>
             <div className="flex justify-center gap-3">
               <button

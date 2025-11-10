@@ -364,9 +364,7 @@ export default function Chat() {
           >
             <div className="flex items-center gap-2 mb-1">
               <MessageCircle className="w-4 h-4" />
-              <p className="font-medium">
-                Global Chat
-              </p>
+              <p className="font-medium">Global Chat</p>
             </div>
             <p className="text-xs text-muted-foreground">
               Hanya pengguna login

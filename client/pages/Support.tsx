@@ -51,12 +51,18 @@ export default function Support() {
       <header className="bg-card border-b border-border sticky top-0 z-10">
         <div className="max-w-3xl mx-auto px-4 py-4 flex items-center justify-between">
           <h1 className="text-xl font-bold">Hubungi Support</h1>
-          <button onClick={() => navigate(-1)} className="px-3 py-2 rounded hover:bg-muted">Tutup</button>
+          <button
+            onClick={() => navigate(-1)}
+            className="px-3 py-2 rounded hover:bg-muted"
+          >
+            Tutup
+          </button>
         </div>
       </header>
       <main className="max-w-3xl mx-auto px-4 py-6 space-y-4">
         <p className="text-muted-foreground text-sm">
-          Sistem otomatis mengisi keluhan sesuai kendala secara realtime, Anda dapat mengedit sebelum kirim.
+          Sistem otomatis mengisi keluhan sesuai kendala secara realtime, Anda
+          dapat mengedit sebelum kirim.
         </p>
         <textarea
           value={message}
@@ -72,8 +78,18 @@ export default function Support() {
           >
             {submitting ? "Mengirim..." : "Kirim & Simpan ke Database"}
           </button>
-          <a href={emailHref()} className="px-4 py-2 rounded bg-muted hover:bg-muted/80">Kirim via Email</a>
-          <a href="https://www.linkedin.com/in/ahmadfashich/" target="_blank" className="px-4 py-2 rounded bg-muted hover:bg-muted/80" rel="noreferrer">
+          <a
+            href={emailHref()}
+            className="px-4 py-2 rounded bg-muted hover:bg-muted/80"
+          >
+            Kirim via Email
+          </a>
+          <a
+            href="https://www.linkedin.com/in/ahmadfashich/"
+            target="_blank"
+            className="px-4 py-2 rounded bg-muted hover:bg-muted/80"
+            rel="noreferrer"
+          >
             Hubungi via LinkedIn
           </a>
         </div>

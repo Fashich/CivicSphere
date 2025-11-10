@@ -106,27 +106,35 @@ const translations: Record<Lang, Record<string, string>> = {
 
     // Dashboard (extended)
     "dashboard.featuresTitle": "Key Features",
-    "dashboard.featuresDesc": "Manage climate actions and collaborate with global communities",
+    "dashboard.featuresDesc":
+      "Manage climate actions and collaborate with global communities",
     "dashboard.feature.map.title": "Global Interactive Map",
-    "dashboard.feature.map.desc": "Visualize climate actions worldwide with interactive maps, clustering, and real-time filters",
+    "dashboard.feature.map.desc":
+      "Visualize climate actions worldwide with interactive maps, clustering, and real-time filters",
     "dashboard.feature.map.cta": "Explore Map",
     "dashboard.feature.community.title": "Community Management",
-    "dashboard.feature.community.desc": "Manage members, roles, and contributions centrally for effective collaboration",
+    "dashboard.feature.community.desc":
+      "Manage members, roles, and contributions centrally for effective collaboration",
     "dashboard.feature.community.cta": "Manage Communities",
     "dashboard.feature.chat.title": "Collaborative Chat",
-    "dashboard.feature.chat.desc": "Real-time communication for discussions and project coordination",
+    "dashboard.feature.chat.desc":
+      "Real-time communication for discussions and project coordination",
     "dashboard.feature.chat.cta": "Start Chatting",
     "dashboard.feature.projects.title": "Project Tracking",
-    "dashboard.feature.projects.desc": "Track project status, CO2 targets, and progress with an easy dashboard",
+    "dashboard.feature.projects.desc":
+      "Track project status, CO2 targets, and progress with an easy dashboard",
     "dashboard.feature.projects.cta": "View Projects",
     "dashboard.feature.analytics.title": "Comprehensive 3D Analytics",
-    "dashboard.feature.analytics.desc": "Dashboards with 3D visualizations, time trends, regional comparisons, and impact metrics",
+    "dashboard.feature.analytics.desc":
+      "Dashboards with 3D visualizations, time trends, regional comparisons, and impact metrics",
     "dashboard.feature.analytics.cta": "View Reports",
     "dashboard.feature.collab.title": "Global Collaboration",
-    "dashboard.feature.collab.desc": "Connect with communities worldwide to collaborate on climate action",
+    "dashboard.feature.collab.desc":
+      "Connect with communities worldwide to collaborate on climate action",
     "dashboard.feature.collab.cta": "Explore Communities",
     "dashboard.demo.title": "Get Started with Demo Data",
-    "dashboard.demo.desc": "Seed the database with sample communities and climate actions to explore all features.",
+    "dashboard.demo.desc":
+      "Seed the database with sample communities and climate actions to explore all features.",
     "dashboard.demo.cta": "Seed Demo Data",
 
     // Pages
@@ -379,27 +387,35 @@ const translations: Record<Lang, Record<string, string>> = {
 
     // Dashboard (extended)
     "dashboard.featuresTitle": "Fitur Utama",
-    "dashboard.featuresDesc": "Kelola aksi iklim dan kolaborasi dengan komunitas global",
+    "dashboard.featuresDesc":
+      "Kelola aksi iklim dan kolaborasi dengan komunitas global",
     "dashboard.feature.map.title": "Peta Interaktif Global",
-    "dashboard.feature.map.desc": "Visualisasi aksi iklim di seluruh dunia dengan peta interaktif, clustering, dan filter real-time",
+    "dashboard.feature.map.desc":
+      "Visualisasi aksi iklim di seluruh dunia dengan peta interaktif, clustering, dan filter real-time",
     "dashboard.feature.map.cta": "Jelajahi Peta",
     "dashboard.feature.community.title": "Manajemen Komunitas",
-    "dashboard.feature.community.desc": "Kelola anggota, peran, dan kontribusi secara terpusat untuk kolaborasi efektif",
+    "dashboard.feature.community.desc":
+      "Kelola anggota, peran, dan kontribusi secara terpusat untuk kolaborasi efektif",
     "dashboard.feature.community.cta": "Kelola Komunitas",
     "dashboard.feature.chat.title": "Chat Kolaboratif",
-    "dashboard.feature.chat.desc": "Berkomunikasi real-time untuk diskusi dan koordinasi proyek",
+    "dashboard.feature.chat.desc":
+      "Berkomunikasi real-time untuk diskusi dan koordinasi proyek",
     "dashboard.feature.chat.cta": "Mulai Obrolan",
     "dashboard.feature.projects.title": "Pelacakan Proyek",
-    "dashboard.feature.projects.desc": "Pantau status proyek, target CO2, dan progres dengan dashboard yang mudah digunakan",
+    "dashboard.feature.projects.desc":
+      "Pantau status proyek, target CO2, dan progres dengan dashboard yang mudah digunakan",
     "dashboard.feature.projects.cta": "Lihat Proyek",
     "dashboard.feature.analytics.title": "Analitik 3D Komprehensif",
-    "dashboard.feature.analytics.desc": "Dashboard dengan visualisasi 3D, tren waktu, perbandingan regional, dan metrik dampak",
+    "dashboard.feature.analytics.desc":
+      "Dashboard dengan visualisasi 3D, tren waktu, perbandingan regional, dan metrik dampak",
     "dashboard.feature.analytics.cta": "Lihat Laporan",
     "dashboard.feature.collab.title": "Kolaborasi Global",
-    "dashboard.feature.collab.desc": "Terhubung dengan komunitas di seluruh dunia dan berkolaborasi untuk aksi iklim bersama",
+    "dashboard.feature.collab.desc":
+      "Terhubung dengan komunitas di seluruh dunia dan berkolaborasi untuk aksi iklim bersama",
     "dashboard.feature.collab.cta": "Jelajahi Komunitas",
     "dashboard.demo.title": "Mulai dengan Data Demo",
-    "dashboard.demo.desc": "Seed database dengan komunitas contoh dan aksi iklim untuk menjelajahi semua fitur.",
+    "dashboard.demo.desc":
+      "Seed database dengan komunitas contoh dan aksi iklim untuk menjelajahi semua fitur.",
     "dashboard.demo.cta": "Seed Data Demo",
 
     // Pages

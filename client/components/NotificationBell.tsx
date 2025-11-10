@@ -41,7 +41,12 @@ export default function NotificationBell() {
           .channel(`public:notifications:${user.id}`)
           .on(
             "postgres_changes",
-            { event: "*", schema: "public", table: "notifications", filter: `user_id=eq.${user.id}` },
+            {
+              event: "*",
+              schema: "public",
+              table: "notifications",
+              filter: `user_id=eq.${user.id}`,
+            },
             async () => {
               const { data: fresh } = await supabase
                 .from("notifications")
@@ -86,8 +91,13 @@ export default function NotificationBell() {
 
   const markOneRead = async (id: string) => {
     try {
-      await supabase.from("notifications").update({ is_read: true }).eq("id", id);
-      setItems((prev) => prev.map((n) => (n.id === id ? { ...n, is_read: true } : n)));
+      await supabase
+        .from("notifications")
+        .update({ is_read: true })
+        .eq("id", id);
+      setItems((prev) =>
+        prev.map((n) => (n.id === id ? { ...n, is_read: true } : n)),
+      );
       setUnread((u) => Math.max(0, u - 1));
     } catch (e) {
       // ignore
@@ -124,16 +134,23 @@ export default function NotificationBell() {
             {loading ? (
               <div className="p-4 text-sm text-muted-foreground">Memuat...</div>
             ) : items.length === 0 ? (
-              <div className="p-4 text-sm text-muted-foreground">Tidak ada notifikasi</div>
+              <div className="p-4 text-sm text-muted-foreground">
+                Tidak ada notifikasi
+              </div>
             ) : (
               <ul className="divide-y divide-border">
                 {items.map((n) => (
-                  <li key={n.id} className={`p-3 ${!n.is_read ? "bg-primary/5" : ""}`}>
+                  <li
+                    key={n.id}
+                    className={`p-3 ${!n.is_read ? "bg-primary/5" : ""}`}
+                  >
                     <div className="flex items-start justify-between gap-3">
                       <div>
                         <p className="text-sm font-medium">{n.title}</p>
                         {n.description && (
-                          <p className="text-xs text-muted-foreground mt-1">{n.description}</p>
+                          <p className="text-xs text-muted-foreground mt-1">
+                            {n.description}
+                          </p>
                         )}
                         <p className="text-[10px] text-muted-foreground mt-1">
                           {new Date(n.created_at).toLocaleString()}
