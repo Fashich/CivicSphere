@@ -92,6 +92,14 @@ export const CommunityDetail: React.FC<CommunityDetailProps> = ({
   const [newMessage, setNewMessage] = useState("");
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [isMember, setIsMember] = useState<boolean>(false);
+  const [isLeader, setIsLeader] = useState<boolean>(false);
+  const [showJoinDialog, setShowJoinDialog] = useState(false);
+  const [showLeaveDialog, setShowLeaveDialog] = useState(false);
+  const [showAnnouncementDialog, setShowAnnouncementDialog] = useState(false);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [farewellMessage, setFarewellMessage] = useState("");
+  const [announcementText, setAnnouncementText] = useState("");
+  const [leaveWithMessage, setLeaveWithMessage] = useState(false);
 
   useEffect(() => {
     const loadCommunityData = async () => {
