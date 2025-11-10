@@ -505,6 +505,11 @@ const translations: Record<Lang, Record<string, string>> = {
     communityCreated: "Komunitas dibuat",
     communityCreateFailed: "Gagal membuat komunitas",
     createCommunity: "Buat Komunitas",
+    visibility: "Visibilitas",
+    visibilityPublic: "Terbuka",
+    visibilityRequest: "Butuh Permohonan",
+    visibilityClosed: "Tutup",
+    manageRequests: "Kelola Permohonan",
 
     // Projects
     newProject: "Proyek Baru",
