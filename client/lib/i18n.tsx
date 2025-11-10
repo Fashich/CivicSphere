@@ -69,6 +69,7 @@ const translations: Record<Lang, Record<string, string>> = {
     featuresLink: "Features",
     communityTitle: "Community",
     join: "Join",
+    leave: "Leave Community",
     blog: "Blog",
     legal: "Legal",
     privacy: "Privacy",
