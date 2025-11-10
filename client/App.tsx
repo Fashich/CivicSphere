@@ -115,6 +115,9 @@ const App = () => {
                   <Route path="/communities" element={<Communities />} />
                   <Route path="/projects" element={<Projects />} />
                   <Route path="/reports" element={<Reports />} />
+                  <Route path="/global-map" element={<GlobalMap />} />
+                  <Route path="/chat" element={<Chat />} />
+                  <Route path="/global-collaboration" element={<GlobalCollaboration />} />
 
                   <Route path="/about" element={<About />} />
                   <Route path="/features" element={<Features />} />
