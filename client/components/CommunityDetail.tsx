@@ -52,6 +52,7 @@ interface Community {
   location_name?: string;
   member_count: number;
   created_at: string;
+  visibility?: "public" | "request" | "closed";
 }
 
 interface CommunityDetailProps {
@@ -75,6 +76,7 @@ export const CommunityDetail: React.FC<CommunityDetailProps> = ({
   const [loading, setLoading] = useState(true);
   const [newMessage, setNewMessage] = useState("");
   const [currentUser, setCurrentUser] = useState<any>(null);
+  const [isMember, setIsMember] = useState<boolean>(false);
 
   useEffect(() => {
     const loadCommunityData = async () => {
@@ -107,17 +109,17 @@ export const CommunityDetail: React.FC<CommunityDetailProps> = ({
           .eq("community_id", communityId);
 
         if (membersData) {
-          setMembers(
-            membersData.map((m: any) => ({
-              id: m.profiles.id,
-              username: m.profiles.username,
-              email: m.profiles.email,
-              avatar_url: m.profiles.avatar_url,
-              role: m.role,
-              contribution_points: m.contribution_points,
-              joined_at: m.joined_at,
-            })),
-          );
+          const mapped = membersData.map((m: any) => ({
+            id: m.profiles.id,
+            username: m.profiles.username,
+            email: m.profiles.email,
+            avatar_url: m.profiles.avatar_url,
+            role: m.role,
+            contribution_points: m.contribution_points,
+            joined_at: m.joined_at,
+          }));
+          setMembers(mapped);
+          if (authUser) setIsMember(mapped.some((m) => m.id === authUser.id));
         }
 
         // Load projects
@@ -270,14 +272,63 @@ export const CommunityDetail: React.FC<CommunityDetailProps> = ({
               </p>
             </div>
           </div>
-          {onClose && (
-            <button
-              onClick={onClose}
-              className="px-4 py-2 rounded-lg hover:bg-muted transition-colors"
-            >
-              ✕
-            </button>
-          )}
+          <div className="flex items-center gap-2">
+            {!isMember && currentUser && (
+              community.visibility === "closed" ? (
+                <button className="px-4 py-2 rounded-lg bg-muted cursor-not-allowed" disabled>
+                  Tertutup
+                </button>
+              ) : community.visibility === "request" ? (
+                <button
+                  onClick={async () => {
+                    try {
+                      await supabase.from("community_join_requests").insert({
+                        community_id: community.id,
+                        user_id: currentUser.id,
+                      });
+                      alert("Permohonan bergabung dikirim");
+                    } catch (e) {
+                      alert(String(e));
+                    }
+                  }}
+                  className="px-4 py-2 rounded-lg bg-primary text-primary-foreground"
+                >
+                  Ajukan Bergabung
+                </button>
+              ) : (
+                <button
+                  onClick={async () => {
+                    try {
+                      await supabase.from("community_members").insert({
+                        community_id: community.id,
+                        user_id: currentUser.id,
+                        role: "member",
+                      });
+                      await supabase
+                        .from("communities")
+                        .update({ member_count: (community.member_count || 0) + 1 })
+                        .eq("id", community.id);
+                      alert("Bergabung ke komunitas");
+                      setIsMember(true);
+                    } catch (e) {
+                      alert(String(e));
+                    }
+                  }}
+                  className="px-4 py-2 rounded-lg bg-primary text-primary-foreground"
+                >
+                  Bergabung
+                </button>
+              )
+            )}
+            {onClose && (
+              <button
+                onClick={onClose}
+                className="px-4 py-2 rounded-lg hover:bg-muted transition-colors"
+              >
+                ✕
+              </button>
+            )}
+          </div>
         </div>
       </div>
 
