@@ -351,6 +351,7 @@ const translations: Record<Lang, Record<string, string>> = {
     featuresLink: "Fitur",
     communityTitle: "Komunitas",
     join: "Bergabung",
+    leave: "Keluar Komunitas",
     blog: "Blog",
     legal: "Legal",
     privacy: "Privasi",
