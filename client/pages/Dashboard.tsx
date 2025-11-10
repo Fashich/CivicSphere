@@ -394,7 +394,7 @@ export default function Dashboard() {
                 description:
                   "Visualisasi aksi iklim di seluruh dunia dengan peta Leaflet interaktif, clustering, dan filter real-time",
                 action: "Jelajahi Peta",
-                navigate: "/communities",
+                navigate: "/global-map",
               },
               {
                 icon: Users,
@@ -410,7 +410,7 @@ export default function Dashboard() {
                 description:
                   "Berkomunikasi real-time dengan anggota komunitas untuk diskusi dan koordinasi proyek",
                 action: "Mulai Obrolan",
-                navigate: "/communities",
+                navigate: "/chat",
               },
               {
                 icon: Zap,
@@ -434,7 +434,7 @@ export default function Dashboard() {
                 description:
                   "Terhubung dengan komunitas di seluruh dunia dan berkolaborasi untuk aksi iklim bersama",
                 action: "Jelajahi Komunitas",
-                navigate: "/communities",
+                navigate: "/global-collaboration",
               },
             ].map((feature) => (
               <button
