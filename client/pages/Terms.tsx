@@ -59,8 +59,8 @@ export default function Terms() {
         <h2 className="font-bold">6. Perubahan Ketentuan</h2>
         <p>
           Kami dapat mengubah syarat ini dari waktu ke waktu. Perubahan akan
-          diumumkan dan terus menggunakan layanan berarti Anda menerima perubahan
-          tersebut.
+          diumumkan dan terus menggunakan layanan berarti Anda menerima
+          perubahan tersebut.
         </p>
 
         <h2 className="font-bold">7. Hubungi Kami</h2>
