@@ -66,10 +66,38 @@ export default function Reports() {
       }
 
       await loadRealTimeData();
+
+      // Subscribe to real-time changes
+      const actionsChannel = supabase
+        .channel("public:climate_actions")
+        .on(
+          "postgres_changes",
+          { event: "*", schema: "public", table: "climate_actions" },
+          async () => {
+            await loadRealTimeData();
+          },
+        )
+        .subscribe();
+
+      const communitiesChannel = supabase
+        .channel("public:communities")
+        .on(
+          "postgres_changes",
+          { event: "*", schema: "public", table: "communities" },
+          async () => {
+            await loadRealTimeData();
+          },
+        )
+        .subscribe();
+
+      return () => {
+        supabase.removeChannel(actionsChannel);
+        supabase.removeChannel(communitiesChannel);
+      };
     };
 
     checkAuthAndLoadData();
-  }, [navigate]);
+  }, [navigate, timeRange]);
 
   const loadRealTimeData = async () => {
     try {
