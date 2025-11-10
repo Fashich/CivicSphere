@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Globe, Users, Loader, MessageCircle, Zap } from "lucide-react";
 import BackButton from "@/components/BackButton";
 import LanguageToggle from "@/components/LanguageToggle";
+import NotificationBell from "@/components/NotificationBell";
 import ChatBubble from "@/components/ChatBubble";
 import { useI18n } from "@/lib/i18n";
 import {
