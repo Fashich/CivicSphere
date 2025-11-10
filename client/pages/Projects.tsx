@@ -207,6 +207,7 @@ export default function Projects() {
           </div>
           <div className="flex items-center gap-2">
             <LanguageToggle lang={lang} setLang={setLang} />
+            <NotificationBell />
             <button
               onClick={() => setShowCreate(true)}
               className="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-primary-foreground font-medium hover:shadow-lg transition-all"
