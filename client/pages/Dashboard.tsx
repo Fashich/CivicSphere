@@ -307,7 +307,7 @@ export default function Dashboard() {
                     Profil Saya
                   </button>
                   <button
-                    onClick={handleLogout}
+                    onClick={handleLogoutClick}
                     className="block w-full text-left px-4 py-2 hover:bg-muted transition-colors flex items-center gap-2 last:rounded-b-lg text-destructive"
                   >
                     <LogOut className="w-4 h-4" />
