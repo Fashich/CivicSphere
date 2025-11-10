@@ -62,35 +62,43 @@ export default function Projects() {
       }
 
       await loadProjects();
+      await loadUserCommunities(authUser.id);
 
-      try {
-        // Load communities the user is a member of or created
-        const { data: userComms } = await supabase
-          .from("communities")
-          .select("*")
-          .or(
-            `creator_id.eq.${authUser.id},id.in.(select community_id from community_members where user_id=eq.${authUser.id})`,
-          )
-          .order("created_at", { ascending: false });
-        // If the above complex query fails on some DBs, fallback to communities created by user
-        if (userComms) setUserCommunities(userComms);
-      } catch (e) {
-        // fallback: communities created by user
-        try {
-          const { data: created } = await supabase
-            .from("communities")
-            .select("*")
-            .eq("creator_id", authUser.id)
-            .order("created_at", { ascending: false });
-          if (created) setUserCommunities(created);
-        } catch (e2) {
-          console.error("Failed loading user communities", e2);
-        }
-      }
+      // Subscribe to communities changes for real-time updates
+      const communitiesChannel = supabase
+        .channel("public:communities")
+        .on(
+          "postgres_changes",
+          { event: "*", schema: "public", table: "communities" },
+          async () => {
+            await loadUserCommunities(authUser.id);
+          },
+        )
+        .subscribe();
+
+      return () => {
+        supabase.removeChannel(communitiesChannel);
+      };
     };
 
     checkAuth();
   }, [navigate]);
+
+  const loadUserCommunities = async (userId: string) => {
+    try {
+      // Load all communities (we'll filter on the client side)
+      const { data: allComms } = await supabase
+        .from("communities")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (allComms) {
+        setUserCommunities(allComms);
+      }
+    } catch (e) {
+      console.error("Failed loading user communities", e);
+    }
+  };
 
   const loadProjects = async () => {
     try {
