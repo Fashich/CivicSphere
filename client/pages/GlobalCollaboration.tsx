@@ -163,6 +163,7 @@ export default function GlobalCollaboration() {
           </div>
           <div className="flex items-center gap-2">
             <LanguageToggle lang={lang} setLang={setLang} />
+            <NotificationBell />
           </div>
         </div>
       </header>
