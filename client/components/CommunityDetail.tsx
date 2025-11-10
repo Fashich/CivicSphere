@@ -752,6 +752,107 @@ export const CommunityDetail: React.FC<CommunityDetailProps> = ({
           </div>
         )}
       </main>
+
+      {/* Join Dialog */}
+      <Dialog open={showJoinDialog} onOpenChange={setShowJoinDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t("joinCommunityTitle")}</DialogTitle>
+            <DialogDescription>{t("joinCommunityDesc")}</DialogDescription>
+          </DialogHeader>
+          <div className="py-4">
+            <p className="text-sm text-muted-foreground">
+              Anda akan bergabung dengan komunitas <strong>{community?.name}</strong>
+            </p>
+          </div>
+          <DialogFooter className="gap-2">
+            <Button variant="outline" onClick={() => setShowJoinDialog(false)}>
+              {t("cancel")}
+            </Button>
+            <Button onClick={handleJoinCommunity}>{t("confirmJoin")}</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Leave Dialog */}
+      <Dialog open={showLeaveDialog} onOpenChange={setShowLeaveDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t("leaveCommunityTitle")}</DialogTitle>
+            <DialogDescription>{t("leaveCommunityDesc")}</DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div>
+              <label className="text-sm font-medium">{t("farewell")}</label>
+              <Textarea
+                value={farewellMessage}
+                onChange={(e) => setFarewellMessage(e.target.value)}
+                placeholder={t("farewellPlaceholder")}
+                className="mt-2"
+                rows={3}
+              />
+            </div>
+          </div>
+          <DialogFooter className="gap-2">
+            <Button variant="outline" onClick={() => setShowLeaveDialog(false)}>
+              {t("cancel")}
+            </Button>
+            <Button variant="destructive" onClick={handleLeaveCommunity}>
+              {t("confirmLeave")}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Announcement Dialog */}
+      <Dialog open={showAnnouncementDialog} onOpenChange={setShowAnnouncementDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t("announcementTitle")}</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div>
+              <label className="text-sm font-medium">{t("announcement")}</label>
+              <Textarea
+                value={announcementText}
+                onChange={(e) => setAnnouncementText(e.target.value)}
+                placeholder={t("announcementPlaceholder")}
+                className="mt-2"
+                rows={4}
+              />
+            </div>
+          </div>
+          <DialogFooter className="gap-2">
+            <Button variant="outline" onClick={() => setShowAnnouncementDialog(false)}>
+              {t("cancel")}
+            </Button>
+            <Button onClick={handlePostAnnouncement}>{t("postAnnouncement")}</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete Community Dialog */}
+      <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle className="text-destructive">{t("deleteCommunityTitle")}</DialogTitle>
+            <DialogDescription>{t("deleteCommunityDesc")}</DialogDescription>
+          </DialogHeader>
+          <div className="py-4">
+            <p className="text-sm text-muted-foreground">
+              Komunitas <strong>{community?.name}</strong> dan semua data di dalamnya akan dihapus secara permanen.
+            </p>
+          </div>
+          <DialogFooter className="gap-2">
+            <Button variant="outline" onClick={() => setShowDeleteDialog(false)}>
+              {t("cancel")}
+            </Button>
+            <Button variant="destructive" onClick={handleDeleteCommunity}>
+              {t("confirmDelete")}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
