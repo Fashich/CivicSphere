@@ -513,6 +513,33 @@ export default function Dashboard() {
           </div>
         </section>
       </main>
+
+      {/* Logout Confirmation Dialog */}
+      <AlertDialog open={showLogoutConfirm} onOpenChange={setShowLogoutConfirm}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <div className="flex items-center gap-2">
+              <AlertCircle className="w-5 h-5 text-destructive" />
+              <AlertDialogTitle>
+                {t("confirmLogout") || "Konfirmasi Keluar"}
+              </AlertDialogTitle>
+            </div>
+            <AlertDialogDescription>
+              {t("logoutWarning") ||
+                "Anda akan keluar dari CivicSphere. Anda perlu login kembali untuk mengakses dashboard."}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>
+              {t("cancel") || "Batal"}
+            </AlertDialogCancel>
+            <AlertDialogAction onClick={handleLogout} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+              {t("logout") || "Keluar"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
       <ChatBubble />
     </div>
   );
