@@ -202,6 +202,16 @@ const translations: Record<Lang, Record<string, string>> = {
     // Chat
     send: "Send",
     chatPlaceholder: "Type a message...",
+
+    // Logout
+    confirmLogout: "Confirm Sign Out",
+    logoutWarning:
+      "You will be signed out from CivicSphere. You will need to log in again to access your dashboard.",
+    logout: "Sign Out",
+
+    // Notifications
+    notificationsLabel: "Notifications",
+    noNotifications: "No new notifications",
   },
   id: {
     getStarted: "Mulai Sekarang",
