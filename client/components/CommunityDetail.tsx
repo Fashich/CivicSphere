@@ -142,7 +142,13 @@ export const CommunityDetail: React.FC<CommunityDetailProps> = ({
             joined_at: m.joined_at,
           }));
           setMembers(mapped);
-          if (authUser) setIsMember(mapped.some((m) => m.id === authUser.id));
+          if (authUser) {
+            const userMember = mapped.find((m) => m.id === authUser.id);
+            setIsMember(!!userMember);
+            setIsLeader(
+              userMember?.role === "admin" || userMember?.role === "moderator"
+            );
+          }
         }
 
         // Load projects
