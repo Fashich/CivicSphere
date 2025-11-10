@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
+import { useI18n } from "@/lib/i18n";
 import {
   Users,
   Plus,
@@ -11,6 +12,7 @@ import {
   Mail,
   MapPin,
   Calendar,
+  LogOut,
 } from "lucide-react";
 
 interface Member {
