@@ -19,8 +19,19 @@ import {
   Loader,
   User,
   ChevronDown,
+  AlertCircle,
 } from "lucide-react";
 import { seedDemoData } from "@/lib/seedData";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 interface UserProfile {
   id: string;
