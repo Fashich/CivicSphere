@@ -11,11 +11,13 @@ interface ClimateAction {
 interface Earth3DProps {
   onLocationClick?: (lat: number, lon: number) => void;
   actions?: ClimateAction[];
+  isPreview?: boolean;
 }
 
 export const Earth3D: React.FC<Earth3DProps> = ({
   onLocationClick,
   actions = [],
+  isPreview = false,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<THREE.Scene | null>(null);
@@ -201,15 +203,22 @@ export const Earth3D: React.FC<Earth3DProps> = ({
     actionPointsRef.current = actionPoints;
     scene.add(actionPoints);
 
-    // Lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+    // Lighting - adjust brightness for preview mode
+    const ambientLightIntensity = isPreview ? 1.0 : 0.6;
+    const sunLightIntensity = isPreview ? 1.2 : 0.8;
+    const glowIntensity = isPreview ? 0.8 : 0.5;
+
+    const ambientLight = new THREE.AmbientLight(
+      0xffffff,
+      ambientLightIntensity,
+    );
     scene.add(ambientLight);
 
-    const sunLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    const sunLight = new THREE.DirectionalLight(0xffffff, sunLightIntensity);
     sunLight.position.set(3, 2, 5);
     scene.add(sunLight);
 
-    const glow = new THREE.PointLight(0x4db8d9, 0.5, 10);
+    const glow = new THREE.PointLight(0x4db8d9, glowIntensity, 10);
     glow.position.copy(sunLight.position);
     scene.add(glow);
 
@@ -384,6 +393,25 @@ export const Earth3D: React.FC<Earth3DProps> = ({
     );
     pts.geometry.getAttribute("position").needsUpdate = true;
   }, [actions]);
+
+  // Update lighting based on preview mode
+  useEffect(() => {
+    if (!sceneRef.current) return;
+
+    const ambientLightIntensity = isPreview ? 1.0 : 0.6;
+    const sunLightIntensity = isPreview ? 1.2 : 0.8;
+    const glowIntensity = isPreview ? 0.8 : 0.5;
+
+    sceneRef.current.children.forEach((child) => {
+      if (child instanceof THREE.AmbientLight) {
+        child.intensity = ambientLightIntensity;
+      } else if (child instanceof THREE.DirectionalLight) {
+        child.intensity = sunLightIntensity;
+      } else if (child instanceof THREE.PointLight) {
+        child.intensity = glowIntensity;
+      }
+    });
+  }, [isPreview]);
 
   return (
     <div

@@ -4,7 +4,7 @@ import ThemeToggle from "@/components/ThemeToggle";
 import LanguageToggle from "@/components/LanguageToggle";
 import ChatBubble from "@/components/ChatBubble";
 import { Link } from "react-router-dom";
-import { ArrowRight, Leaf, Globe, Users, Zap } from "lucide-react";
+import { ArrowRight, Leaf, Globe, Users, Zap, Eye, EyeOff } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { useI18n } from "@/lib/i18n";
 
@@ -12,6 +12,7 @@ export default function Index() {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [actions, setActions] = useState<any[]>([]);
+  const [showPreview, setShowPreview] = useState(false);
   const { lang, setLang, t } = useI18n();
 
   useEffect(() => {
@@ -119,36 +120,53 @@ export default function Index() {
 
       {/* Hero Section with 3D Earth */}
       <section className="relative w-full h-screen flex items-center justify-center overflow-hidden">
-        <Earth3D />
+        <Earth3D isPreview={showPreview} />
 
         {/* Overlay content */}
         <div className="absolute inset-0 flex flex-col items-center justify-center z-10 pointer-events-none">
-          {/* Header */}
-          <div className="text-center mb-8 animate-fade-in">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white drop-shadow-lg mb-4">
-              CivicSphere
-            </h1>
-            <p className="text-lg sm:text-xl text-white/80 drop-shadow-md max-w-2xl mx-auto">
-              {t("heroSubtitle")}
-            </p>
-          </div>
+          {/* Preview Toggle Button */}
+          <button
+            onClick={() => setShowPreview(!showPreview)}
+            className="absolute top-24 right-8 pointer-events-auto p-3 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 transition-all hover:shadow-lg"
+            aria-label="Toggle preview"
+          >
+            {showPreview ? (
+              <EyeOff className="w-6 h-6" />
+            ) : (
+              <Eye className="w-6 h-6" />
+            )}
+          </button>
 
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 pointer-events-auto mt-8">
-            <Link
-              to="/signup"
-              className="px-8 py-3 rounded-lg bg-gradient-to-r from-primary to-secondary text-primary-foreground font-bold hover:shadow-xl transition-all flex items-center gap-2 text-center justify-center"
-            >
-              {t("getStarted")}
-              <ArrowRight className="w-5 h-5" />
-            </Link>
-            <Link
-              to="/features"
-              className="px-8 py-3 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-white font-bold hover:bg-white/20 transition-all flex items-center justify-center"
-            >
-              {t("learnMore")}
-            </Link>
-          </div>
+          {/* Header - Hidden in preview mode */}
+          {!showPreview && (
+            <div className="text-center mb-8 animate-fade-in">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white drop-shadow-lg mb-4">
+                CivicSphere
+              </h1>
+              <p className="text-lg sm:text-xl text-white/80 drop-shadow-md max-w-2xl mx-auto">
+                {t("heroSubtitle")}
+              </p>
+            </div>
+          )}
+
+          {/* CTA Buttons - Hidden in preview mode */}
+          {!showPreview && (
+            <div className="flex flex-col sm:flex-row gap-4 pointer-events-auto mt-8">
+              <Link
+                to="/signup"
+                className="px-8 py-3 rounded-lg bg-gradient-to-r from-primary to-secondary text-primary-foreground font-bold hover:shadow-xl transition-all flex items-center gap-2 text-center justify-center"
+              >
+                {t("getStarted")}
+                <ArrowRight className="w-5 h-5" />
+              </Link>
+              <Link
+                to="/features"
+                className="px-8 py-3 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-white font-bold hover:bg-white/20 transition-all flex items-center justify-center"
+              >
+                {t("learnMore")}
+              </Link>
+            </div>
+          )}
         </div>
       </section>
 
