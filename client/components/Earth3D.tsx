@@ -11,6 +11,7 @@ interface ClimateAction {
 interface Earth3DProps {
   onLocationClick?: (lat: number, lon: number) => void;
   actions?: ClimateAction[];
+  isPreview?: boolean;
 }
 
 export const Earth3D: React.FC<Earth3DProps> = ({
