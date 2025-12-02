@@ -208,7 +208,10 @@ export const Earth3D: React.FC<Earth3DProps> = ({
     const sunLightIntensity = isPreview ? 1.2 : 0.8;
     const glowIntensity = isPreview ? 0.8 : 0.5;
 
-    const ambientLight = new THREE.AmbientLight(0xffffff, ambientLightIntensity);
+    const ambientLight = new THREE.AmbientLight(
+      0xffffff,
+      ambientLightIntensity,
+    );
     scene.add(ambientLight);
 
     const sunLight = new THREE.DirectionalLight(0xffffff, sunLightIntensity);
