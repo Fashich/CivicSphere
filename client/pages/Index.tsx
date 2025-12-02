@@ -4,7 +4,7 @@ import ThemeToggle from "@/components/ThemeToggle";
 import LanguageToggle from "@/components/LanguageToggle";
 import ChatBubble from "@/components/ChatBubble";
 import { Link } from "react-router-dom";
-import { ArrowRight, Leaf, Globe, Users, Zap } from "lucide-react";
+import { ArrowRight, Leaf, Globe, Users, Zap, Eye, EyeOff } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { useI18n } from "@/lib/i18n";
 
