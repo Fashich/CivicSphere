@@ -120,7 +120,7 @@ export default function Index() {
 
       {/* Hero Section with 3D Earth */}
       <section className="relative w-full h-screen flex items-center justify-center overflow-hidden">
-        <Earth3D />
+        <Earth3D isPreview={showPreview} />
 
         {/* Overlay content */}
         <div className="absolute inset-0 flex flex-col items-center justify-center z-10 pointer-events-none">
