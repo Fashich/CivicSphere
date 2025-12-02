@@ -391,6 +391,25 @@ export const Earth3D: React.FC<Earth3DProps> = ({
     pts.geometry.getAttribute("position").needsUpdate = true;
   }, [actions]);
 
+  // Update lighting based on preview mode
+  useEffect(() => {
+    if (!sceneRef.current) return;
+
+    const ambientLightIntensity = isPreview ? 1.0 : 0.6;
+    const sunLightIntensity = isPreview ? 1.2 : 0.8;
+    const glowIntensity = isPreview ? 0.8 : 0.5;
+
+    sceneRef.current.children.forEach((child) => {
+      if (child instanceof THREE.AmbientLight) {
+        child.intensity = ambientLightIntensity;
+      } else if (child instanceof THREE.DirectionalLight) {
+        child.intensity = sunLightIntensity;
+      } else if (child instanceof THREE.PointLight) {
+        child.intensity = glowIntensity;
+      }
+    });
+  }, [isPreview]);
+
   return (
     <div
       ref={containerRef}
