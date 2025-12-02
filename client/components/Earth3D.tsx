@@ -17,6 +17,7 @@ interface Earth3DProps {
 export const Earth3D: React.FC<Earth3DProps> = ({
   onLocationClick,
   actions = [],
+  isPreview = false,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<THREE.Scene | null>(null);
