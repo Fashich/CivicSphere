@@ -12,6 +12,7 @@ export default function Index() {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [actions, setActions] = useState<any[]>([]);
+  const [showPreview, setShowPreview] = useState(false);
   const { lang, setLang, t } = useI18n();
 
   useEffect(() => {
